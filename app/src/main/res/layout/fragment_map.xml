@@ -8,9 +8,9 @@
         android:gravity="center">
 
     <TextView
-            android:id="@+id/text_home"
+            android:id="@+id/text_map"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fragment_home" />
+            android:text="@string/fragment_map" />
 
 </LinearLayout>

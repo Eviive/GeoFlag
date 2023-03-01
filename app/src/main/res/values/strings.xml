@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">GeoFlag</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_quiz">Quiz</string>
+    <string name="title_map">Map</string>
+    <string name="fragment_home">Fragment Home</string>
+    <string name="fragment_quiz">Fragment Quiz</string>
+    <string name="fragment_map">Fragment Map</string>
 </resources>
