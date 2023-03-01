@@ -6,4 +6,5 @@
     <string name="fragment_home">Fragment Home</string>
     <string name="fragment_quiz">Fragment Quiz</string>
     <string name="fragment_map">Fragment Map</string>
+    <string name="description_flag_picture">The flag of a country</string>
 </resources>
