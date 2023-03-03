@@ -83,12 +83,6 @@ class MainActivity : AppCompatActivity() {
                     countries.addAll(result)
                     loadedData = true
                     loadFragment(homeFragment, 1)
-
-                    Log.i("MainActivity", "Number of countries: ${result.size}")
-
-                    for (country in result) {
-                        Log.i("MainActivity", country.name.official)
-                    }
                 }
             } else {
                 Log.e("MainActivity", response.errorBody().toString())

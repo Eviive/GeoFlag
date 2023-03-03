@@ -1,13 +1,17 @@
 package com.iut.geoflag.adapters
 
+import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.iut.geoflag.activities.DetailsActivity
 import com.iut.geoflag.databinding.CountryItemBinding
 import com.iut.geoflag.models.Country
 
@@ -45,27 +49,23 @@ class CountryAdapter(private val countries: List<Country>, private val seeOnGoog
             binding.name.text = country.name.official
 
             itemView.setOnClickListener {
-                Toast.makeText(itemView.context, country.name.official, Toast.LENGTH_SHORT).show()
-            }
-
-            itemView.setOnLongClickListener {
                 MaterialAlertDialogBuilder(itemView.context)
                     .setTitle(country.name.official)
                     .setItems(arrayOf("See details", "See on Google Maps")) { _, which ->
                         when (which) {
                             0 -> {
                                 Toast.makeText(itemView.context, "See details", Toast.LENGTH_SHORT).show()
+
+                                val intent = Intent(itemView.context, DetailsActivity::class.java)
+                                intent.putExtra("country", country)
+                                startActivity(itemView.context, intent, Bundle.EMPTY)
                             }
                             1 -> {
                                 seeOnGoogleMaps(country)
                             }
                         }
                     }
-                    .setPositiveButton("OK") { dialog, _ ->
-                        dialog.dismiss()
-                    }
                     .show()
-                true
             }
         }
 
