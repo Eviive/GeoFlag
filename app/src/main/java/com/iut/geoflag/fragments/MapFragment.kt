@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.iut.geoflag.databinding.FragmentMapBinding
 
-class MapFragment : Fragment() {
+class MapFragment: Fragment() {
 
     private lateinit var binding: FragmentMapBinding
 
