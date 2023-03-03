@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "242967402197",
+    "project_id": "geoflag-ceab3",
+    "storage_bucket": "geoflag-ceab3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:242967402197:android:c0e7fe31d4ca359ef1745c",
+        "android_client_info": {
+          "package_name": "com.iut.geoflag"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "242967402197-kt8ooqnvplnodhl6jf0ov89ehjj1v611.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iut.geoflag",
+            "certificate_hash": "a7877b2f5cdd1bd7da2942f472526f9419f51af9"
+          }
+        },
+        {
+          "client_id": "242967402197-ep6o90tqpk5rb8qmjd3d28cuaclsd2nu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCh0NAd7dUkxk-snr4-E169Vwhv0PzQjXo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "242967402197-ep6o90tqpk5rb8qmjd3d28cuaclsd2nu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

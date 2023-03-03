@@ -10,4 +10,7 @@
     <string name="text_no_connection">No internet connection</string>
     <string name="text_retry">Retry</string>
     <string name="text_search_view">Search for countries</string>
+    <string name="channel_notification_id">geoflag_channel</string>
+    <string name="channel_notification_name">GeoFlag notifications</string>
+    <string name="notification_title">You received a GeoFlag notification</string>
 </resources>

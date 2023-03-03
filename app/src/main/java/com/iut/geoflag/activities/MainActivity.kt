@@ -1,14 +1,24 @@
 package com.iut.geoflag.activities
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import com.iut.geoflag.R
 import com.iut.geoflag.api.CountriesAPI
 import com.iut.geoflag.api.RetrofitHelper
@@ -31,6 +41,19 @@ class MainActivity: AppCompatActivity() {
     private val homeFragment = HomeFragment(countries)
     private val quizFragment = QuizFragment()
     private val mapFragment = MapFragment()
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (!isGranted) {
+            MaterialAlertDialogBuilder(this)
+                .setTitle("Permission denied")
+                .setMessage("You denied the permission to receive notifications. You can change this in the settings.")
+                .setPositiveButton("OK") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
+    }
 
     private var currentTab = 1
     private var loadedData = false
@@ -40,6 +63,8 @@ class MainActivity: AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        askNotificationPermission()
 
         if (checkForInternet()) {
             loadCountries()
@@ -140,6 +165,41 @@ class MainActivity: AppCompatActivity() {
     fun seeOnGoogleMaps(country: Country) {
         mapFragment.country = country
         binding.navigationView.selectedItemId = R.id.navigation_map
+    }
+
+    private fun askNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                logToken()
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                MaterialAlertDialogBuilder(this)
+                    .setTitle("Permission needed")
+                    .setMessage("This permission is needed to receive notifications.")
+                    .setPositiveButton("OK") { dialog, _ ->
+                        dialog.dismiss()
+                        requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    }
+                    .show()
+            } else {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        } else {
+            logToken()
+        }
+    }
+
+    private fun logToken() {
+        Firebase.messaging.token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.i("MainActivity", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            val token = task.result
+
+            Log.i("MainActivity", token)
+            Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
+        })
     }
 
 }
