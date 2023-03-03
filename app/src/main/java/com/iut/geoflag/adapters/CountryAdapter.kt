@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.iut.geoflag.databinding.CountryItemBinding
 import com.iut.geoflag.models.Country
 
-class CountryAdapter(private val countries: List<Country>): ListAdapter<Country, CountryAdapter.ItemViewHolder>(CountryDiffCallback()) {
+class CountryAdapter(private val countries: List<Country>, private val seeOnGoogleMaps: (country: Country) -> Unit): ListAdapter<Country, CountryAdapter.ItemViewHolder>(CountryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val binding = CountryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -45,6 +46,26 @@ class CountryAdapter(private val countries: List<Country>): ListAdapter<Country,
 
             itemView.setOnClickListener {
                 Toast.makeText(itemView.context, country.name.official, Toast.LENGTH_SHORT).show()
+            }
+
+            itemView.setOnLongClickListener {
+                MaterialAlertDialogBuilder(itemView.context)
+                    .setTitle(country.name.official)
+                    .setItems(arrayOf("See details", "See on Google Maps")) { _, which ->
+                        when (which) {
+                            0 -> {
+                                Toast.makeText(itemView.context, "See details", Toast.LENGTH_SHORT).show()
+                            }
+                            1 -> {
+                                seeOnGoogleMaps(country)
+                            }
+                        }
+                    }
+                    .setPositiveButton("OK") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .show()
+                true
             }
         }
 

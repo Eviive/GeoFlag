@@ -26,10 +26,14 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    private val countries = ArrayList<Country>()
+
+    private val homeFragment = HomeFragment(countries)
+    private val quizFragment = QuizFragment()
+    private val mapFragment = MapFragment()
+
     private var currentTab = 1
     private var loadedData = false
-
-    private val countries = ArrayList<Country>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,15 +54,15 @@ class MainActivity : AppCompatActivity() {
             }
             when (it.itemId) {
                 R.id.navigation_quiz -> {
-                    loadFragment(QuizFragment(), 2)
+                    loadFragment(quizFragment, 2)
                     true
                 }
                 R.id.navigation_map -> {
-                    loadFragment(MapFragment(), 3)
+                    loadFragment(mapFragment, 3)
                     true
                 }
                 else -> {
-                    loadFragment(HomeFragment(countries), 1)
+                    loadFragment(homeFragment, 1)
                     true
                 }
             }
@@ -78,7 +82,7 @@ class MainActivity : AppCompatActivity() {
                 if (result != null) {
                     countries.addAll(result)
                     loadedData = true
-                    loadFragment(HomeFragment(countries), 1)
+                    loadFragment(homeFragment, 1)
 
                     Log.i("MainActivity", "Number of countries: ${result.size}")
 
@@ -122,12 +126,6 @@ class MainActivity : AppCompatActivity() {
             activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
             else -> false
         }
-
-        // combiner les 2 techniques pour check internet
-        // vérifier une première fois si le téléphone est connecté à internet :
-        //     si oui load les données
-        //     si non afficher le fragment NoConnectionFragment
-        //            setup le network callback pour load les données quand le téléphone sera connecté à internet
     }
 
     private fun setupNetworkCallback() {
@@ -143,6 +141,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         connectivityManager.registerDefaultNetworkCallback(networkCallback)
+    }
+
+    fun seeOnGoogleMaps(country: Country) {
+        mapFragment.country = country
+        binding.navigationView.selectedItemId = R.id.navigation_map
     }
 
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.iut.geoflag.activities.MainActivity
 import com.iut.geoflag.adapters.CountryAdapter
 import com.iut.geoflag.databinding.FragmentHomeBinding
 import com.iut.geoflag.models.Country
@@ -20,7 +21,13 @@ class HomeFragment(private val countries: List<Country>): Fragment() {
 
         binding.recyclerViewCountries.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.recyclerViewCountries.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        binding.recyclerViewCountries.adapter = CountryAdapter(countries)
+        binding.recyclerViewCountries.adapter = CountryAdapter(countries) {
+            val activity = requireActivity()
+
+            if (activity is MainActivity) {
+                activity.seeOnGoogleMaps(it)
+            }
+        }
 
         return binding.root
     }
