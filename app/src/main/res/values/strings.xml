@@ -9,4 +9,5 @@
     <string name="description_flag_picture">The flag of a country</string>
     <string name="text_no_connection">No internet connection</string>
     <string name="text_retry">Retry</string>
+    <string name="text_search_view">Search for countries</string>
 </resources>

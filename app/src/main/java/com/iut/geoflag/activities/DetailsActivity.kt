@@ -2,7 +2,6 @@ package com.iut.geoflag.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.iut.geoflag.R
 import com.iut.geoflag.databinding.ActivityDetailsBinding
 import com.iut.geoflag.models.Country
 
