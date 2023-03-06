@@ -6,7 +6,7 @@ import retrofit2.http.GET
 
 interface CountriesAPI {
 
-    @GET("all")
+    @GET("/countries.json")
     suspend fun getCountries(): Response<List<Country>>
 
 }
