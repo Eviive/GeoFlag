@@ -42,6 +42,10 @@
                 android:name=".activities.LoginActivity"
                 android:exported="false" />
 
+        <activity
+                android:name=".activities.GameActivity"
+                android:exported="false" />
+
         <service
                 android:name=".firebase.GeoFlagMessagingService"
                 android:exported="false">
