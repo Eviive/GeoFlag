@@ -36,11 +36,22 @@ class MainActivity: AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val countries = ArrayList<Country>()
+    private val adapterLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            if (result.data?.getBooleanExtra("map", false) == true) {
+                val country = result.data?.getSerializableExtra("country") as Country
+                seeOnGoogleMaps(country)
+            }
+        }
+    }
 
-    private val homeFragment = HomeFragment(countries)
+    private val countries = ArrayList<Country>()
+    private val homeFragment = HomeFragment(countries, adapterLauncher)
     private val quizFragment = QuizFragment()
     private val mapFragment = MapFragment()
+
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->

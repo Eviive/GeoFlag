@@ -2,10 +2,8 @@ package com.iut.geoflag.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -20,31 +18,14 @@ import com.iut.geoflag.adapters.CountryAdapter
 import com.iut.geoflag.databinding.FragmentHomeBinding
 import com.iut.geoflag.models.Country
 
-class HomeFragment(countries: List<Country>) : Fragment() {
+class HomeFragment(countries: List<Country>, launcher: ActivityResultLauncher<Intent>) : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-
-    private val adapterLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        Log.i("Details Activity", "Result")
-        if (result.resultCode == AppCompatActivity.RESULT_OK) {
-            if (result.data?.getBooleanExtra("map", false) == true) {
-                val activity = requireActivity()
-                val country = result.data?.getSerializableExtra("country") as Country
-
-                if (activity is MainActivity) {
-                    activity.seeOnGoogleMaps(country)
-                }
-            }
-        }
-    }
 
     private val adapter = CountryAdapter(countries, seeDetail = {
         val intent = Intent(requireContext(), DetailsActivity::class.java)
         intent.putExtra("country", it)
-
-        adapterLauncher.launch(intent)
+        launcher.launch(intent)
     }) {
         val activity = requireActivity()
 

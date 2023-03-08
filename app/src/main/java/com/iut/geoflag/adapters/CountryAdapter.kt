@@ -1,18 +1,16 @@
 package com.iut.geoflag.adapters
 
-import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.iut.geoflag.activities.DetailsActivity
 import com.iut.geoflag.databinding.CountryItemBinding
 import com.iut.geoflag.models.Country
 import com.iut.geoflag.utils.StringUtils

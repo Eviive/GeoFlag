@@ -30,7 +30,6 @@ class DetailsActivity : AppCompatActivity() {
         binding.previous.setOnClickListener {
             val intent = Intent()
             intent.putExtra("map", false)
-            Log.i("Details Activity", "Back button clicked")
             setResult(RESULT_OK, intent)
             finish()
         }
@@ -38,11 +37,9 @@ class DetailsActivity : AppCompatActivity() {
             val intent = Intent()
             intent.putExtra("map", true)
             intent.putExtra("country", country)
-            Log.i("Details Activity", "Map button clicked for " + country?.name?.common)
             setResult(RESULT_OK, intent)
             finish()
         }
-        Log.i("Details Activity", "onCreate() called")
     }
 
     private fun bindCountry(country: Country) {
