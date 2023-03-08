@@ -13,4 +13,8 @@
     <string name="channel_notification_id">geoflag_channel</string>
     <string name="channel_notification_name">GeoFlag notifications</string>
     <string name="notification_title">You received a GeoFlag notification</string>
+    <string name="description_person_pin">A pin with a person</string>
+    <string name="title_google_login">Google Login</string>
+    <string name="google_sign_in">Sign in with Google</string>
+    <string name="description_google_logo">Google\'s logo</string>
 </resources>

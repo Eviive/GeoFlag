@@ -2,6 +2,7 @@ package com.iut.geoflag.activities
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.Network
@@ -14,9 +15,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import com.iut.geoflag.R
@@ -35,6 +41,7 @@ import kotlinx.coroutines.launch
 class MainActivity: AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var auth: FirebaseAuth
 
     private val countries = ArrayList<Country>()
 
@@ -55,6 +62,7 @@ class MainActivity: AppCompatActivity() {
         }
     }
 
+    private var signInClient: GoogleSignInClient? = null
     private var currentTab = 1
     private var loadedData = false
 
@@ -63,6 +71,10 @@ class MainActivity: AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if (!login()) {
+            return
+        }
 
         askNotificationPermission()
 
@@ -78,6 +90,10 @@ class MainActivity: AppCompatActivity() {
                 return@setOnItemSelectedListener false
             }
             when (it.itemId) {
+                R.id.navigation_home -> {
+                    loadFragment(homeFragment, 1)
+                    true
+                }
                 R.id.navigation_quiz -> {
                     loadFragment(quizFragment, 2)
                     true
@@ -86,10 +102,7 @@ class MainActivity: AppCompatActivity() {
                     loadFragment(mapFragment, 3)
                     true
                 }
-                else -> {
-                    loadFragment(homeFragment, 1)
-                    true
-                }
+                else -> false
             }
         }
     }
@@ -116,21 +129,23 @@ class MainActivity: AppCompatActivity() {
         }
     }
 
-    private fun loadFragment(fragment: Fragment, index: Int){
-        val transaction = supportFragmentManager.beginTransaction()
+    private fun loadFragment(fragment: Fragment, index: Int) {
+        if (!supportFragmentManager.isDestroyed) {
+            val transaction = supportFragmentManager.beginTransaction()
 
-        if (currentTab < index) {
-            transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
-        } else if (currentTab > index) {
-            transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-        } else {
-            transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+            if (currentTab < index) {
+                transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+            } else if (currentTab > index) {
+                transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+            } else {
+                transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+            }
+
+            currentTab = index
+
+            transaction.replace(binding.fragmentContainer.id, fragment)
+            transaction.commit()
         }
-
-        currentTab = index
-
-        transaction.replace(binding.fragmentContainer.id, fragment)
-        transaction.commit()
     }
 
     private fun checkForInternet(): Boolean {
@@ -200,6 +215,44 @@ class MainActivity: AppCompatActivity() {
             Log.i("MainActivity", token)
             Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
         })
+    }
+
+    private fun login(): Boolean {
+        auth = Firebase.auth
+
+        if (auth.currentUser == null) {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+            return false
+        }
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        signInClient = GoogleSignIn.getClient(this, gso)
+        setProfile()
+
+        binding.signOutButton.setOnClickListener {
+            logout()
+        }
+
+        return true
+    }
+
+    private fun logout() {
+        auth.signOut()
+        signInClient?.signOut()?.addOnCompleteListener(this) {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
+    }
+
+    private fun setProfile() {
+        val username = auth.currentUser?.displayName ?: "Not logged in"
+
+        Log.i("MainActivity", username)
     }
 
 }
