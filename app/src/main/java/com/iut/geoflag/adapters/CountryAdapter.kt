@@ -1,13 +1,12 @@
 package com.iut.geoflag.adapters
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
+import androidx.activity.result.ActivityResultLauncher
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +18,11 @@ import com.iut.geoflag.models.Country
 import com.iut.geoflag.utils.StringUtils
 import java.util.*
 
-class CountryAdapter(private val countries: List<Country>, private val seeOnGoogleMaps: (country: Country) -> Unit): ListAdapter<Country, CountryAdapter.ItemViewHolder>(CountryDiffCallback()), Filterable {
+class CountryAdapter(
+    private val countries: List<Country>,
+    private val seeDetail:(country: Country) -> Unit,
+    private val seeOnGoogleMaps: (country: Country) -> Unit
+) : ListAdapter<Country, CountryAdapter.ItemViewHolder>(CountryDiffCallback()), Filterable {
 
     init {
         submitList(countries)
@@ -63,7 +66,8 @@ class CountryAdapter(private val countries: List<Country>, private val seeOnGoog
         }
     }
 
-    inner class ItemViewHolder(private val binding: CountryItemBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ItemViewHolder(private val binding: CountryItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(country: Country) {
             if (country.flags.containsKey("png")) {
@@ -86,11 +90,10 @@ class CountryAdapter(private val countries: List<Country>, private val seeOnGoog
                     .setItems(arrayOf("See details", "See on Google Maps")) { _, which ->
                         when (which) {
                             0 -> {
-                                Toast.makeText(itemView.context, "See details", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(itemView.context, "See details", Toast.LENGTH_SHORT)
+                                    .show()
 
-                                val intent = Intent(itemView.context, DetailsActivity::class.java)
-                                intent.putExtra("country", country)
-                                startActivity(itemView.context, intent, Bundle.EMPTY)
+                                seeDetail(country)
                             }
                             1 -> {
                                 seeOnGoogleMaps(country)
@@ -103,7 +106,7 @@ class CountryAdapter(private val countries: List<Country>, private val seeOnGoog
 
     }
 
-    class CountryDiffCallback: DiffUtil.ItemCallback<Country>() {
+    class CountryDiffCallback : DiffUtil.ItemCallback<Country>() {
 
         override fun areItemsTheSame(oldItem: Country, newItem: Country): Boolean {
             return oldItem == newItem

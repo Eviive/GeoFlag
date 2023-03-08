@@ -13,4 +13,15 @@
     <string name="channel_notification_id">geoflag_channel</string>
     <string name="channel_notification_name">GeoFlag notifications</string>
     <string name="notification_title">You received a GeoFlag notification</string>
+    <string name="flag">Flag</string>
+    <string name="previous">Back</string>
+    <string name="country_name">Name</string>
+    <string name="country_capital">Capital</string>
+    <string name="country_region">Region</string>
+    <string name="country_languages">Languages</string>
+    <string name="country_coordinates">Coordinates</string>
+    <string name="country_area">Area</string>
+    <string name="country_population">Population</string>
+    <string name="inhabitants">inhabitants</string>
+    <string name="see_on_map">See on map</string>
 </resources>
