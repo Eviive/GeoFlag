@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
     private val countries = ArrayList<Country>()
     private val homeFragment = HomeFragment(countries, detailsLauncher)
-    private val quizFragment = QuizFragment()
+    private val quizFragment = QuizFragment(countries)
     private val mapFragment = MapFragment(detailsLauncher)
 
     private val requestPermissionLauncher = registerForActivityResult(
