@@ -9,10 +9,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import com.iut.geoflag.R
 import com.iut.geoflag.activities.GameActivity
 import com.iut.geoflag.databinding.FragmentQuizBinding
 import com.iut.geoflag.models.Country
+import com.iut.geoflag.models.Game
 
 class QuizFragment(private var countries: ArrayList<Country>): Fragment() {
 
@@ -31,7 +31,8 @@ class QuizFragment(private var countries: ArrayList<Country>): Fragment() {
 
         binding.startButton.setOnClickListener {
             val intent = Intent(context, GameActivity::class.java)
-            intent.putExtra("countries", countries)
+            val game = Game(30, countries)
+            intent.putExtra("game", game)
             startGameForResult.launch(intent)
         }
 

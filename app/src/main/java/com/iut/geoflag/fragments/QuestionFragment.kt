@@ -1,17 +1,18 @@
 package com.iut.geoflag.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.google.android.material.snackbar.Snackbar
 import com.iut.geoflag.activities.GameActivity
 import com.iut.geoflag.databinding.FragmentFlagQuestionBinding
 import com.iut.geoflag.models.Question
+import java.util.Timer
+import kotlin.concurrent.schedule
 
 class QuestionFragment(private var question: Question) : Fragment() {
 
@@ -30,6 +31,8 @@ class QuestionFragment(private var question: Question) : Fragment() {
         for (possibility in question.possibilities) {
             val button = Button(context)
 
+            button.background.setTint(Color.GRAY)
+
             button.layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
@@ -39,9 +42,19 @@ class QuestionFragment(private var question: Question) : Fragment() {
             binding.answers.addView(button)
 
             button.setOnClickListener {
-                Snackbar.make(binding.root, "response : ${button.text}", Snackbar.LENGTH_SHORT).show()
-                val validity = question.isCorrect(possibility)
-                (activity as GameActivity).submitAnswer(validity)
+
+                if (question.isAnswered())
+                    return@setOnClickListener
+                question.setAnswered()
+
+                if (question.isCorrect(possibility)){
+                    button.background.setTint(Color.GREEN)
+                }else{
+                    button.background.setTint(Color.RED)
+                }
+                Timer().schedule(500) {
+                    (activity as GameActivity).submitAnswer(possibility)
+                }
             }
         }
 
