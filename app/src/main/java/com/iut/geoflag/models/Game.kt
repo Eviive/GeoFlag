@@ -7,6 +7,7 @@ data class Game(private var time: Long, private var countries: ArrayList<Country
     private var score: Int = 0
     private var questionNumber: Int = 0
     private var currentQuestion: Question = generateQuestion()
+    private var isFinished: Boolean = false
 
     private fun generateQuestion() : Question {
 
@@ -55,5 +56,17 @@ data class Game(private var time: Long, private var countries: ArrayList<Country
 
     fun getScore(): Int {
         return score
+    }
+
+    fun getTimer(): Long {
+        return time
+    }
+
+    fun finish() {
+        isFinished = true
+    }
+
+    fun isFinished(): Boolean {
+        return isFinished
     }
 }

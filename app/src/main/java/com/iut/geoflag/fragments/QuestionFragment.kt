@@ -11,8 +11,8 @@ import com.bumptech.glide.Glide
 import com.iut.geoflag.activities.GameActivity
 import com.iut.geoflag.databinding.FragmentFlagQuestionBinding
 import com.iut.geoflag.models.Question
-import java.util.Timer
-import kotlin.concurrent.schedule
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 class QuestionFragment(private var question: Question) : Fragment() {
 
@@ -52,9 +52,10 @@ class QuestionFragment(private var question: Question) : Fragment() {
                 }else{
                     button.background.setTint(Color.RED)
                 }
-                Timer().schedule(500) {
+
+                Executors.newSingleThreadScheduledExecutor().schedule({
                     (activity as GameActivity).submitAnswer(possibility)
-                }
+                }, 500, TimeUnit.MILLISECONDS)
             }
         }
 

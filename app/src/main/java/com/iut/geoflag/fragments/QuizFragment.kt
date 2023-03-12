@@ -31,7 +31,7 @@ class QuizFragment(private var countries: ArrayList<Country>): Fragment() {
 
         binding.startButton.setOnClickListener {
             val intent = Intent(context, GameActivity::class.java)
-            val game = Game(30, countries)
+            val game = Game(30_000, countries)
             intent.putExtra("game", game)
             startGameForResult.launch(intent)
         }
