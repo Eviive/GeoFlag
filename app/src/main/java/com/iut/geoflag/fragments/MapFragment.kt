@@ -1,27 +1,37 @@
 package com.iut.geoflag.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.iut.geoflag.activities.DetailsActivity
 import com.iut.geoflag.databinding.FragmentMapBinding
 import com.iut.geoflag.models.Country
 
-class MapFragment: Fragment(), OnMapReadyCallback {
+class MapFragment(private val detailsLauncher: ActivityResultLauncher<Intent>) : Fragment(),
+    OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private lateinit var binding: FragmentMapBinding
 
     var country: Country? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentMapBinding.inflate(inflater, container, false)
 
         MapsInitializer.initialize(requireContext(), MapsInitializer.Renderer.LATEST) {
-            val mapFragment = childFragmentManager.findFragmentById(binding.map.id) as SupportMapFragment
+            val mapFragment =
+                childFragmentManager.findFragmentById(binding.map.id) as SupportMapFragment
             mapFragment.getMapAsync(this)
         }
 
@@ -35,11 +45,11 @@ class MapFragment: Fragment(), OnMapReadyCallback {
             val latLng = LatLng(c.latlng[0], c.latlng[1])
 
             val zoom = when (c.area) {
-                in 0.0 .. 100000.0 -> 6f
-                in 100000.0 .. 1000000.0 -> 5f
-                in 1000000.0 .. 10000000.0 -> 4f
-                in 10000000.0 .. 100000000.0 -> 3f
-                in 100000000.0 .. 1000000000.0 -> 2f
+                in 0.0..100000.0 -> 6f
+                in 100000.0..1000000.0 -> 5f
+                in 1000000.0..10000000.0 -> 4f
+                in 10000000.0..100000000.0 -> 3f
+                in 100000000.0..1000000000.0 -> 2f
                 else -> 1f
             }
 
@@ -55,8 +65,16 @@ class MapFragment: Fragment(), OnMapReadyCallback {
 
             googleMap.animateCamera(cameraUpdate)
 
+            googleMap.setOnMarkerClickListener(this)
             country = null
         }
+    }
+
+    override fun onMarkerClick(marker: Marker): Boolean {
+        val intent = Intent(requireContext(), DetailsActivity::class.java)
+        intent.putExtra("country", marker.tag as Country)
+        detailsLauncher.launch(intent)
+        return true
     }
 
 }

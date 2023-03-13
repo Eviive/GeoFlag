@@ -32,15 +32,26 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class MainActivity: AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val countries = ArrayList<Country>()
+    private val detailsLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            if (result.data?.getBooleanExtra("map", false) == true) {
+                val country = result.data?.getSerializableExtra("country") as Country
+                seeOnGoogleMaps(country)
+            }
+        }
+    }
 
-    private val homeFragment = HomeFragment(countries)
+    private val countries = ArrayList<Country>()
+    private val homeFragment = HomeFragment(countries, detailsLauncher)
     private val quizFragment = QuizFragment()
-    private val mapFragment = MapFragment()
+    private val mapFragment = MapFragment(detailsLauncher)
+
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
@@ -111,18 +122,22 @@ class MainActivity: AppCompatActivity() {
                 }
             } else {
                 Log.e("MainActivity", response.errorBody().toString())
-                Snackbar.make(binding.root, "Error fetching countries", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, "Error fetching countries", Snackbar.LENGTH_SHORT)
+                    .show()
             }
         }
     }
 
-    private fun loadFragment(fragment: Fragment, index: Int){
+    private fun loadFragment(fragment: Fragment, index: Int) {
         val transaction = supportFragmentManager.beginTransaction()
 
         if (currentTab < index) {
             transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
         } else if (currentTab > index) {
-            transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+            transaction.setCustomAnimations(
+                android.R.anim.slide_in_left,
+                android.R.anim.slide_out_right
+            )
         } else {
             transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
         }
@@ -134,7 +149,8 @@ class MainActivity: AppCompatActivity() {
     }
 
     private fun checkForInternet(): Boolean {
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         val network = connectivityManager.activeNetwork ?: return false
 
@@ -148,7 +164,8 @@ class MainActivity: AppCompatActivity() {
     }
 
     private fun setupNetworkCallback() {
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         val networkCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
@@ -169,7 +186,11 @@ class MainActivity: AppCompatActivity() {
 
     private fun askNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
                 logToken()
             } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
                 MaterialAlertDialogBuilder(this)
