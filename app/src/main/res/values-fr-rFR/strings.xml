@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GeoFlag</string>
+    <string name="title_home">Accueil</string>
+    <string name="title_quiz">Quiz</string>
+    <string name="title_map">Carte</string>
+    <string name="fragment_home">Fragment accueil</string>
+    <string name="fragment_quiz">Fragment quiz</string>
+    <string name="fragment_map">Fragment Carte</string>
+    <string name="description_flag_picture">Drapeau du Pays</string>
+    <string name="text_no_connection">Aucune connexion internet</string>
+    <string name="text_retry">Réessayer</string>
+    <string name="text_search_view">Chercher un pays</string>
+    <string name="channel_notification_id">canal geoflag</string>
+    <string name="channel_notification_name">Notification GeoFlag</string>
+    <string name="notification_title">Vous avez reçu une notification</string>
+    <string name="flag">Drapeau</string>
+    <string name="previous">Retour</string>
+    <string name="country_name">Nom</string>
+    <string name="country_capital">Capitale</string>
+    <string name="country_region">Région</string>
+    <string name="country_coordinates">Coordonnées</string>
+    <string name="country_area">Superficie</string>
+    <string name="country_population">Population</string>
+    <string name="country_languages">Langues</string>
+    <string name="inhabitants">habitants</string>
+    <string name="see_on_map">Voir sur la carte</string>
+</resources>

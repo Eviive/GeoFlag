@@ -17,4 +17,15 @@
     <string name="title_google_login">Google Login</string>
     <string name="google_sign_in">Sign in with Google</string>
     <string name="description_google_logo">Google\'s logo</string>
+    <string name="flag">Flag</string>
+    <string name="previous">Back</string>
+    <string name="country_name">Name</string>
+    <string name="country_capital">Capital</string>
+    <string name="country_region">Region</string>
+    <string name="country_languages">Languages</string>
+    <string name="country_coordinates">Coordinates</string>
+    <string name="country_area">Area</string>
+    <string name="country_population">Population</string>
+    <string name="inhabitants">inhabitants</string>
+    <string name="see_on_map">See on map</string>
 </resources>
