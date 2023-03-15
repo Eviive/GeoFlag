@@ -1,6 +1,7 @@
 package com.iut.geoflag.models
 
 import java.io.Serializable
+import java.util.Objects.hash
 
 data class Country(
     val name: Name,
@@ -24,4 +25,8 @@ data class Country(
     data class CapitalInfo(
         val latlng: List<Double>
     ): Serializable
+
+    override fun hashCode(): Int {
+        return hash(name.common)
+    }
 }

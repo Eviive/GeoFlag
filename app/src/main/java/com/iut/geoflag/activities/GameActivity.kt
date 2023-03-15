@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import androidx.appcompat.app.AppCompatActivity
+import com.example.formapp.utils.StorageManager
 import com.iut.geoflag.databinding.ActivityGameBinding
 import com.iut.geoflag.fragments.QuestionFragment
 import com.iut.geoflag.models.Country
@@ -15,6 +16,7 @@ class GameActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGameBinding
     private lateinit var game: Game
+    private lateinit var timer: CountDownTimer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +26,9 @@ class GameActivity : AppCompatActivity() {
         game = intent.getSerializableExtra("game") as Game
 
         updateQuestion()
+        updateBestScore()
 
-        object : CountDownTimer(game.getTimer(), 1000) {
+        timer = object : CountDownTimer(game.getTimer(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val text = "Time: ${millisUntilFinished / 1000 + 1}s"
                 binding.timer.text = text
@@ -37,6 +40,11 @@ class GameActivity : AppCompatActivity() {
                 gameOver()
             }
         }.start()
+    }
+
+    override fun onDestroy() {
+        timer.cancel()
+        super.onDestroy()
     }
 
     fun submitAnswer(response : Country) {
@@ -64,6 +72,7 @@ class GameActivity : AppCompatActivity() {
             dialog, which ->
 
             val intent = Intent()
+            updateBestScore()
             intent.putExtra("score", game.getScore())
             setResult(Activity.RESULT_OK, intent)
             finish()
@@ -80,6 +89,16 @@ class GameActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(binding.questionFragment.id, QuestionFragment(question))
         transaction.commit()
+    }
+
+    private fun updateBestScore() {
+
+        var bestScore = StorageManager.load<Int>(this, "bestScore") ?: 0
+
+        if (game.getScore() > bestScore){
+            StorageManager.save(this, "bestScore", game.getScore())
+        }
+
     }
 
 }

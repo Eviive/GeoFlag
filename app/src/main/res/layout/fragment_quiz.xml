@@ -23,12 +23,20 @@
         >
 
         <TextView
+            android:id="@+id/bestScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Best Score: 0"
-            android:textSize="30sp"
             android:layout_marginTop="20dp"
-            android:id="@+id/bestScoreTextView"
+            android:text="Best Score: 0"
+            android:textSize="20sp"
+            />
+
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:src="@drawable/compass"
+            android:layout_gravity="center"
             />
 
         <Button
@@ -40,6 +48,37 @@
             android:text="Start"
             android:id="@+id/startButton"
             />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Countries: 230"
+            />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Time: 30s"
+
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dificulty: all"
+                />
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
     <TextView
