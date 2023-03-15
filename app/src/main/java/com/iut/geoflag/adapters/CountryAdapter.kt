@@ -80,6 +80,7 @@ class CountryAdapter(
             }
 
             binding.name.text = country.name.common
+            binding.population.text = country.population.toString()
 
             itemView.setOnClickListener {
                 MaterialAlertDialogBuilder(itemView.context)
