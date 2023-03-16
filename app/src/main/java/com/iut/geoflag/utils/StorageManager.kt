@@ -28,10 +28,16 @@ class StorageManager {
         fun <T> load(context: Context, key: String) : T?  {
 
             return try {
-                val fileOutput = context.openFileInput(key)
-                val data = ObjectInputStream(fileOutput)
+
+                if (!context.fileList().contains(key)) {
+                    return null
+                }
+
+                val fileInput = context.openFileInput(key)
+
+                val data = ObjectInputStream(fileInput)
                 val values = data.readObject() as T
-                fileOutput.close()
+                fileInput.close()
                 data.close()
                 values
             } catch (e: Exception) {

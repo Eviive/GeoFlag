@@ -5,10 +5,12 @@ import java.util.Objects.hash
 
 data class Country(
     val name: Name,
+    val ccn3: String,
     val capital: List<String>,
     val region: String,
     val subregion: String,
     val languages: Map<String, String>,
+    val translations: Map<String, Translation>,
     val latlng: List<Double>,
     val area: Double,
     val population: Int,
@@ -22,11 +24,16 @@ data class Country(
         val official: String
     ): Serializable
 
+    data class Translation(
+        val official: String,
+        val common: String
+    ): Serializable
+
     data class CapitalInfo(
         val latlng: List<Double>
     ): Serializable
 
     override fun hashCode(): Int {
-        return hash(name.common)
+        return hash(ccn3)
     }
 }

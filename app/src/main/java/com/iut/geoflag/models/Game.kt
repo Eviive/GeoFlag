@@ -2,7 +2,7 @@ package com.iut.geoflag.models
 
 import java.io.Serializable
 
-data class Game(private var time: Long, private var countries: ArrayList<Country>) : Serializable {
+data class Game(private var settings: Settings) : Serializable {
 
     private var score: Int = 0
     private var questionNumber: Int = 0
@@ -12,16 +12,16 @@ data class Game(private var time: Long, private var countries: ArrayList<Country
     private fun generateQuestion() : Question {
 
         questionNumber++
-        val country = countries.random()
+        val country = settings.countries.random()
 
         val possibilities = ArrayList<Country>()
         possibilities.add(country)
 
-        for (i in 1 until 3) {
+        for (i in 1 until settings.possibilities) {
             lateinit var answer : Country
 
             do {
-                answer = countries.random()
+                answer = settings.countries.random()
             } while (possibilities.contains(answer))
 
             possibilities.add(answer)
@@ -59,7 +59,7 @@ data class Game(private var time: Long, private var countries: ArrayList<Country
     }
 
     fun getTimer(): Long {
-        return time
+        return settings.time
     }
 
     fun finish() {
