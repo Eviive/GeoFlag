@@ -14,6 +14,10 @@
     <string name="channel_notification_id">canal geoflag</string>
     <string name="channel_notification_name">Notification GeoFlag</string>
     <string name="notification_title">Vous avez reçu une notification</string>
+    <string name="description_person_pin">Une épingle avec une personne</string>
+    <string name="title_google_login">Connexion Google</string>
+    <string name="google_sign_in">Se connecter avec Google</string>
+    <string name="description_google_logo">Le logo de Google</string>
     <string name="flag">Drapeau</string>
     <string name="previous">Retour</string>
     <string name="country_name">Nom</string>
@@ -25,4 +29,26 @@
     <string name="country_languages">Langues</string>
     <string name="inhabitants">habitants</string>
     <string name="see_on_map">Voir sur la carte</string>
+    <string name="quiz_player_name">Nom du joueur:\\u0020</string>
+    <string name="quiz_difficulty">Difficulté:\\u0020</string>
+    <string name="quiz_time">Temps:\\u0020</string>
+    <string name="quiz_choices">Choix:\\u0020</string>
+    <string name="quiz_start">Démarrer</string>
+    <string name="quiz_compass_image">Image d\'une boussole</string>
+    <string name="quiz_settings">Paramètres</string>
+    <string name="quiz_dialog_settings">Paramètres</string>
+    <string name="quiz_dialog_difficulty">Difficulté:</string>
+    <string name="quiz_dialog_every_country">Tous les pays</string>
+    <string name="quiz_dialog_easy">Facile</string>
+    <string name="quiz_dialog_medium">Moyen</string>
+    <string name="quiz_dialog_hard">Difficile</string>
+    <string name="quiz_dialog_difficulty_explanation">Les pays sélectionnés pour les questions sont plus ou moins grands selon la difficulté.</string>
+    <string name="quiz_dialog_time">Temps:\\u0020</string>
+    <string name="quiz_dialog_time_explanation">Le temps du jeu est défini en secondes.</string>
+    <string name="quiz_dialog_possibility">Possiblité:</string>
+    <string name="quiz_dialog_3">3</string>
+    <string name="quiz_dialog_5">5</string>
+    <string name="quiz_dialog_possibility_explanation">Le nombre de réponses possibles pour chaque question.</string>
+    <string name="quiz_dialog_save">Sauvegarder</string>
+    <string name="quiz_best_score">Meilleur score:\\u0020</string>
 </resources>

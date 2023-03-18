@@ -4,76 +4,80 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:padding="20dp"
-    >
+    android:padding="20dp">
 
     <Button
         android:id="@+id/settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Settings"
+        android:text="@string/quiz_settings"
         android:layout_gravity="end"
         android:textSize="11sp"
-        android:backgroundTint="@color/teal_700"
-        />
+        android:backgroundTint="@color/teal_700" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/bestScore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Best Score: 0"
-            android:textSize="20sp"
-            />
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
 
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/quiz_best_score"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            <TextView
+                    android:id="@+id/bestScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp" />
+
+        </LinearLayout>
 
         <ImageView
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:src="@drawable/compass"
             android:layout_gravity="center"
-            />
+            android:contentDescription="@string/quiz_compass_image" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="30dp"
-            android:paddingStart="80dp"
-            android:paddingEnd="80dp"
-            android:text="Start"
-            android:id="@+id/startButton"
-            />
+            android:padding="20dp"
+            android:paddingStart="60dp"
+            android:paddingEnd="60dp"
+            android:text="@string/quiz_start"
+            android:id="@+id/startButton" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            >
+            android:layout_marginTop="10dp"
+            android:gravity="center">
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Choices: " />
+                    android:text="@string/quiz_choices"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/choices"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="3" />
-
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
@@ -81,23 +85,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                >
+                android:layout_marginEnd="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
-                    android:text="Time: "
-                    />
+                    android:text="@string/quiz_time"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/time"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:text="30s"
-                    />
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
@@ -105,44 +104,41 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                >
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Difficulty: "
-                    />
+                    android:text="@string/quiz_difficulty"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/dificulty"
+                    android:id="@+id/difficulty"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="all"
-                    />
+                    android:layout_height="wrap_content" />
+
             </LinearLayout>
 
         </LinearLayout>
-
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="player name: "
-        />
+        android:layout_gravity="start">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Irophin"
-        />
+            android:text="@string/quiz_player_name"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/playerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
 </LinearLayout>
