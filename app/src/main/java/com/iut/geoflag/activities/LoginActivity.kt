@@ -24,6 +24,8 @@ import com.iut.geoflag.databinding.ActivityLoginBinding
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var auth: FirebaseAuth
+    private lateinit var signInClient: GoogleSignInClient
 
     private val signInLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -39,16 +41,11 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private var auth: FirebaseAuth? = null
-    private var signInClient: GoogleSignInClient? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        binding.signInButton.setOnClickListener { signIn() }
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -58,28 +55,27 @@ class LoginActivity : AppCompatActivity() {
         signInClient = GoogleSignIn.getClient(this, gso)
 
         auth = Firebase.auth
+
+        binding.signInButton.setOnClickListener { signIn() }
     }
 
     private fun signIn() {
-        signInClient?.let {
-            val signInIntent = it.signInIntent
-            signInIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            signInLauncher.launch(signInIntent)
-        }
+        val signInIntent = signInClient.signInIntent
+        signInIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        signInLauncher.launch(signInIntent)
     }
 
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-        auth?.let {
-            it.signInWithCredential(credential)
-                .addOnSuccessListener(this) {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
-                }
-                .addOnFailureListener(this) { e ->
-                    Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
-                }
-        }
+
+        auth.signInWithCredential(credential)
+            .addOnSuccessListener(this) {
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            }
+            .addOnFailureListener(this) {
+                Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
+            }
     }
 
 }
