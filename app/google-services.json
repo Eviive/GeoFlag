@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "242967402197-t2haqpqb61i39lni51tbb6vvjr1h06km.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iut.geoflag",
+            "certificate_hash": "8a81a0dae446b5a255f635a9c5da979dae281841"
+          }
+        },
+        {
           "client_id": "242967402197-ep6o90tqpk5rb8qmjd3d28cuaclsd2nu.apps.googleusercontent.com",
           "client_type": 3
         }

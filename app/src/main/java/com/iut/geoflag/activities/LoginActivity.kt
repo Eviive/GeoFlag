@@ -34,6 +34,8 @@ class LoginActivity : AppCompatActivity() {
             } catch (e: ApiException) {
                 Log.i("LoginActivity", "Google sign in failed", e)
             }
+        } else {
+            Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -61,6 +63,7 @@ class LoginActivity : AppCompatActivity() {
     private fun signIn() {
         signInClient?.let {
             val signInIntent = it.signInIntent
+            signInIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             signInLauncher.launch(signInIntent)
         }
     }

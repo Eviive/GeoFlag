@@ -1,6 +1,7 @@
 package com.iut.geoflag.activities
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -54,9 +55,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private val startGameForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data: Intent? = result.data
+
+            val score = data?.getIntExtra("score", 0)
+            Toast.makeText(this, "Score: $score", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private val countries = ArrayList<Country>()
     private val homeFragment = HomeFragment(countries, detailsLauncher)
-    private val quizFragment = QuizFragment()
+    private val quizFragment = QuizFragment(countries, startGameForResult)
     private val mapFragment = MapFragment(detailsLauncher)
 
     private val requestPermissionLauncher = registerForActivityResult(
