@@ -22,7 +22,7 @@
     <string name="country_name">Name</string>
     <string name="country_capital">Capital</string>
     <string name="country_region">Region</string>
-    <string name="country_languages">Languages</string>
+    <string name="country_languages">Language</string>
     <string name="country_coordinates">Coordinates</string>
     <string name="country_area">Area</string>
     <string name="country_population">Population</string>

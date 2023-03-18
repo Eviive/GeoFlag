@@ -5,11 +5,12 @@ import java.util.Objects.hash
 
 data class Country(
     val name: Name,
+    val cca2: String,
     val ccn3: String,
-    val capital: List<String>,
+    val capital: List<String>?,
     val region: String,
-    val subregion: String,
-    val languages: Map<String, String>,
+    val subregion: String?,
+    val languages: Map<String, String>?,
     val translations: Map<String, Translation>,
     val latlng: List<Double>,
     val area: Double,
@@ -30,10 +31,21 @@ data class Country(
     ): Serializable
 
     data class CapitalInfo(
-        val latlng: List<Double>
+        val latlng: List<Double>?
     ): Serializable
 
     override fun hashCode(): Int {
         return hash(ccn3)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Country
+
+        if (ccn3 != other.ccn3) return false
+
+        return true
     }
 }
