@@ -241,7 +241,6 @@ class MainActivity : AppCompatActivity() {
             val token = task.result
 
             Log.i("MainActivity", token)
-            Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
         })
     }
 

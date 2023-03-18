@@ -1,6 +1,6 @@
 package com.iut.geoflag.models
 
-enum class Difficulty(var difficultyName: String) {
+enum class Difficulty(private var difficultyName: String) {
     EASY("Easy"),
     MEDIUM("Medium"),
     HARD("Hard"),
