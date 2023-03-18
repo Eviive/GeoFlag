@@ -45,7 +45,13 @@ class DetailsActivity : AppCompatActivity() {
     private fun bindCountry(country: Country) {
         binding.name.text = country.name.common
 
-        val capital = getString(R.string.country_capital) + " : " + (country.capital?.get(0) ?: "N/A")
+        var capital = getString(R.string.country_capital) + " : "
+
+        capital += if (country.capital.isNullOrEmpty())
+            "No known captial"
+        else
+            country.capital[0]
+
         binding.capital.text = capital
 
         val region =

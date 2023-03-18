@@ -38,7 +38,7 @@ class QuizFragment(private var countries: ArrayList<Country>, private var gameLu
             ?: Settings(
                 countries,
                 30_000,
-                4,
+                3,
                 Difficulty.MEDIUM
             )
 

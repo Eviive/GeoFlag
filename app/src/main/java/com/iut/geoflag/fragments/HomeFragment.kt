@@ -45,12 +45,7 @@ class HomeFragment(countries: List<Country>, launcher: ActivityResultLauncher<In
 
         binding.recyclerViewCountries.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        binding.recyclerViewCountries.addItemDecoration(
-            DividerItemDecoration(
-                context,
-                DividerItemDecoration.VERTICAL
-            )
-        )
+
         binding.recyclerViewCountries.adapter = adapter
 
         return binding.root

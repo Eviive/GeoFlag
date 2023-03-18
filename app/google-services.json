@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "242967402197",
+    "firebase_url": "https://geoflag-ceab3-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "geoflag-ceab3",
     "storage_bucket": "geoflag-ceab3.appspot.com"
   },
@@ -22,6 +23,14 @@
           }
         },
         {
+          "client_id": "242967402197-oqufs01ql3f0qbq7ck7o9qbspn11u3a2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iut.geoflag",
+            "certificate_hash": "d2eb229c99b496b27fa136e0c619c812e5672824"
+          }
+        },
+        {
           "client_id": "242967402197-t2haqpqb61i39lni51tbb6vvjr1h06km.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -30,7 +39,7 @@
           }
         },
         {
-          "client_id": "242967402197-ep6o90tqpk5rb8qmjd3d28cuaclsd2nu.apps.googleusercontent.com",
+          "client_id": "242967402197-f213nkrbk6vgitcligt6san8r47uf2th.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

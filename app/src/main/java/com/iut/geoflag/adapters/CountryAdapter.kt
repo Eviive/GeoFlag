@@ -70,17 +70,23 @@ class CountryAdapter(
             if (country.flags.containsKey("png")) {
                 Glide.with(itemView.context)
                     .load(country.flags["png"])
-                    .into(binding.flag)
+                    .into(binding.countryFlag)
 
                 if (country.flags.containsKey("alt")) {
-                    binding.flag.contentDescription = country.flags["alt"]
+                    binding.countryFlag.contentDescription = country.flags["alt"]
                 } else {
-                    binding.flag.contentDescription = "Flag of ${country.name.official}"
+                    binding.countryFlag.contentDescription = "Flag of ${country.name.official}"
                 }
             }
 
-            binding.name.text = country.name.common
-            binding.population.text = country.population.toString()
+            binding.countryName.text = country.name.common
+            binding.countryPopulation.text = country.population.toString()
+
+            if (country.capital.isNullOrEmpty()){
+                binding.countryCapital.text = "No known capital"
+            } else {
+                binding.countryCapital.text = country.capital[0]
+            }
 
             itemView.setOnClickListener {
                 MaterialAlertDialogBuilder(itemView.context)
