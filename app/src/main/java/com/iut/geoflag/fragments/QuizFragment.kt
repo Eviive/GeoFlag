@@ -30,7 +30,7 @@ class QuizFragment(private var countries: ArrayList<Country>, private var gameLu
         settings = StorageManager.load<Settings>(requireContext(), "settings")
             ?: Settings(
                 countries,
-                45_000,
+                30_000,
                 4,
                 Difficulty.MEDIUM
             )
