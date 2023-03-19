@@ -43,7 +43,7 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     private fun bindCountry(country: Country) {
-        binding.name.text = country.name.common
+        binding.name.text = country.getName().common
 
         var capital = getString(R.string.country_capital) + " : "
 
@@ -85,7 +85,7 @@ class DetailsActivity : AppCompatActivity() {
             if (country.flags.containsKey("alt")) {
                 binding.flag.contentDescription = country.flags["alt"]
             } else {
-                binding.flag.contentDescription = "Flag of ${country.name.official}"
+                binding.flag.contentDescription = "Flag of ${country.getName().official}"
             }
         }
     }

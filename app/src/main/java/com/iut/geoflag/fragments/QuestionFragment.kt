@@ -40,7 +40,7 @@ class QuestionFragment(private var question: Question) : Fragment() {
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
 
-            button.text = possibility.name.common
+            button.text = possibility.getName().common
             binding.answers.addView(button)
 
             button.setOnClickListener {

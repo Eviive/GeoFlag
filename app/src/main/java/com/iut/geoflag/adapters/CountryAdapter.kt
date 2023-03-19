@@ -44,9 +44,9 @@ class CountryAdapter(
                 filteredList.addAll(countries)
 
                 if (!constraint.isNullOrEmpty()) {
+                    val query = constraint.toString().lowercase(Locale.ROOT)
                     filteredList.sortBy {
-                        val name = it.name.common.lowercase(Locale.ROOT)
-                        val query = constraint.toString().lowercase(Locale.ROOT)
+                        val name = it.getName().common.lowercase(Locale.ROOT)
                         StringUtils.levenshteinDistance(name, query)
                     }
 
@@ -76,11 +76,11 @@ class CountryAdapter(
                 if (country.flags.containsKey("alt")) {
                     binding.countryFlag.contentDescription = country.flags["alt"]
                 } else {
-                    binding.countryFlag.contentDescription = "Flag of ${country.name.official}"
+                    binding.countryFlag.contentDescription = "Flag of ${country.getName().official}"
                 }
             }
 
-            binding.countryName.text = country.name.common
+            binding.countryName.text = country.getName().common
             binding.countryPopulation.text = country.population.toString()
 
             if (country.capital.isNullOrEmpty()){
@@ -91,7 +91,7 @@ class CountryAdapter(
 
             itemView.setOnClickListener {
                 MaterialAlertDialogBuilder(itemView.context)
-                    .setTitle(country.name.official)
+                    .setTitle(country.getName().official)
                     .setItems(arrayOf("See details", "See on Google Maps")) { _, which ->
                         when (which) {
                             0 -> {
