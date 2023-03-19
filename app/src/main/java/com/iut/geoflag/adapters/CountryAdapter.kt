@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.iut.geoflag.R
 import com.iut.geoflag.databinding.CountryItemBinding
 import com.iut.geoflag.models.Country
 import com.iut.geoflag.utils.StringUtils
@@ -83,7 +84,7 @@ class CountryAdapter(
             binding.countryPopulation.text = country.population.toString()
 
             if (country.capital.isNullOrEmpty()){
-                binding.countryCapital.text = "No known capital"
+                binding.countryCapital.text = itemView.context.getString(R.string.no_capital)
             } else {
                 binding.countryCapital.text = country.capital[0]
             }

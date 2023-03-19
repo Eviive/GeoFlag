@@ -109,7 +109,7 @@ class GameActivity : AppCompatActivity() {
     private fun updateBestScore() {
         Firebase.auth.currentUser?.uid?.let { uid ->
             db.child("users").child(uid).child("bestScore").get().addOnSuccessListener {
-                val bestScore = if (it.value != null) it.value as Int else 0
+                val bestScore = if (it.value != null) it.value as Long else 0
 
                 if (game.getScore() > bestScore) {
                     it.ref.setValue(game.getScore())

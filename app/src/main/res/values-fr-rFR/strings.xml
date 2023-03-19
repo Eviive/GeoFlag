@@ -50,4 +50,8 @@
     <string name="settings">Paramètres</string>
     <string name="start">Début</string>
     <string name="choices">"Choix : "</string>
+    <string name="capital">"Capitale : "</string>
+    <string name="population">"Population : "</string>
+    <string name="custom_time_slider">Curseur pour une plage de temps personnalisée (30–90 secondes)</string>
+    <string name="no_capital">Pas de capitale</string>
 </resources>

@@ -60,7 +60,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Capital: "
+                    android:text="@string/capital"
                     />
 
                 <TextView
@@ -83,7 +83,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Population: "
+                    android:text="@string/population"
                     />
 
                 <TextView
