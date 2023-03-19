@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
-import com.example.formapp.utils.StorageManager
+import com.iut.geoflag.utils.StorageManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
@@ -23,7 +23,7 @@ import com.iut.geoflag.models.Difficulty
 import com.iut.geoflag.models.Game
 import com.iut.geoflag.models.Settings
 
-class QuizFragment(private var countries: ArrayList<Country>, private var gameLuncher: ActivityResultLauncher<Intent>): Fragment() {
+class QuizFragment(private var countries: ArrayList<Country>, private var gameLauncher: ActivityResultLauncher<Intent>): Fragment() {
 
     private lateinit var binding: FragmentQuizBinding
     private lateinit var db: DatabaseReference
@@ -48,7 +48,7 @@ class QuizFragment(private var countries: ArrayList<Country>, private var gameLu
             val intent = Intent(context, GameActivity::class.java)
             val game = Game(settings)
             intent.putExtra("game", game)
-            gameLuncher.launch(intent)
+            gameLauncher.launch(intent)
         }
 
         binding.settings.setOnClickListener {

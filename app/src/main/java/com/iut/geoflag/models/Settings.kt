@@ -42,12 +42,4 @@ data class Settings(
     init {
         countries = countriesFilter(countries, difficulty)
     }
-
-    fun getCountryNames(): ArrayList<String> {
-        val names = ArrayList<String>()
-        for (country in countries) {
-            names.add(country.name.common)
-        }
-        return names
-    }
 }
