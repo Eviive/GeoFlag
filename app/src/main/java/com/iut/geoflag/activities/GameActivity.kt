@@ -12,8 +12,9 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.iut.geoflag.databinding.ActivityGameBinding
 import com.iut.geoflag.fragments.QuestionFragment
-import com.iut.geoflag.models.Country
 import com.iut.geoflag.models.Game
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 class GameActivity : AppCompatActivity() {
 
@@ -34,15 +35,16 @@ class GameActivity : AppCompatActivity() {
 
         updateQuestion()
         updateBestScore()
+        binding.score.text = game.getScore().toString()
 
         timer = object : CountDownTimer(game.getTimer(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                val text = "Time: ${millisUntilFinished / 1000 + 1}s"
+                val text = "${millisUntilFinished / 1000 + 1}s"
                 binding.timer.text = text
             }
 
             override fun onFinish() {
-                val text = "Times up!"
+                val text = "up!"
                 binding.timer.text = text
                 gameOver()
             }
@@ -54,20 +56,30 @@ class GameActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    fun submitAnswer(response : Country) {
+    fun submitAnswer(correct: Boolean) {
 
         if (game.isFinished())
             return
 
-        if (game.submitAnswer(response)) {
-            val text = "Score: ${game.getScore()}"
-            binding.score.text = text
+        game.submitAnswer(correct)
+
+        var cooldown : Long = 1200
+
+        if (correct) {
+            binding.score.text = game.getScore().toString()
+            cooldown = 500
         }
-        updateQuestion()
+
+        Executors.newSingleThreadScheduledExecutor().schedule({
+            if (!game.isFinished()) {
+                updateQuestion()
+            }
+        }, cooldown, TimeUnit.MILLISECONDS)
     }
 
     private fun gameOver() {
         game.finish()
+        updateBestScore()
 
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Game Over")
@@ -77,7 +89,6 @@ class GameActivity : AppCompatActivity() {
 
         builder.setPositiveButton("OK") { _, _ ->
             val intent = Intent()
-            updateBestScore()
             intent.putExtra("score", game.getScore())
             setResult(Activity.RESULT_OK, intent)
             finish()
