@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
     private val countries = ArrayList<Country>()
     private val homeFragment = HomeFragment(countries, detailsLauncher)
     private val quizFragment = QuizFragment(countries, startGameForResult)
-    private val mapFragment = MapFragment(detailsLauncher)
+    private val mapFragment = MapFragment(countries, detailsLauncher)
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -202,7 +202,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun seeOnGoogleMaps(country: Country) {
-        mapFragment.country = country
+        mapFragment.markedCountry = country
         binding.navigationView.selectedItemId = R.id.navigation_map
     }
 
@@ -241,7 +241,6 @@ class MainActivity : AppCompatActivity() {
             val token = task.result
 
             Log.i("MainActivity", token)
-            Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
         })
     }
 

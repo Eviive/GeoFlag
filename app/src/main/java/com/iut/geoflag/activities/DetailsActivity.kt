@@ -2,6 +2,7 @@ package com.iut.geoflag.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.iut.geoflag.R
@@ -44,15 +45,15 @@ class DetailsActivity : AppCompatActivity() {
     private fun bindCountry(country: Country) {
         binding.name.text = country.name.common
 
-        val capital = getString(R.string.country_capital) + " : " + country.capital[0]
+        val capital = getString(R.string.country_capital) + " : " + (country.capital?.get(0) ?: "N/A")
         binding.capital.text = capital
 
         val region =
-            getString(R.string.country_region) + " : " + country.subregion + ", " + country.region
+            getString(R.string.country_region) + " : " + (if (country.subregion != null) country.subregion + ", " + country.region else country.region)
         binding.region.text = region
 
         val languages =
-            getString(R.string.country_languages) + " : " + country.languages.values.joinToString(", ")
+            getString(R.string.country_languages) + " : " + (country.languages?.values?.first() ?: "N/A")
         binding.languages.text = languages
 
         val coordinate1 = (country.latlng[0] * 100).roundToInt() / 100.0

@@ -11,6 +11,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import com.example.formapp.utils.StorageManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.iut.geoflag.activities.GameActivity
 import com.iut.geoflag.databinding.DialogSettingsBinding
 import com.iut.geoflag.databinding.FragmentQuizBinding
@@ -22,10 +26,13 @@ import com.iut.geoflag.models.Settings
 class QuizFragment(private var countries: ArrayList<Country>, private var gameLuncher: ActivityResultLauncher<Intent>): Fragment() {
 
     private lateinit var binding: FragmentQuizBinding
+    private lateinit var db: DatabaseReference
     private lateinit var settings: Settings
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentQuizBinding.inflate(inflater, container, false)
+
+        db = Firebase.database("https://geoflag-ceab3-default-rtdb.europe-west1.firebasedatabase.app/").reference
 
         settings = StorageManager.load<Settings>(requireContext(), "settings")
             ?: Settings(
@@ -50,6 +57,8 @@ class QuizFragment(private var countries: ArrayList<Country>, private var gameLu
 
         updateBestScore()
 
+        binding.playerName.text = Firebase.auth.currentUser?.displayName ?: "Player"
+
         return binding.root
     }
 
@@ -60,14 +69,24 @@ class QuizFragment(private var countries: ArrayList<Country>, private var gameLu
     }
 
     private fun updateBestScore() {
-        val bestScore = StorageManager.load<Int>(requireContext(), "bestScore") ?: 0
-        val text = "Best score: $bestScore"
-        binding.bestScore.text = text
+        var text = "Login to see your best score"
+
+        if (Firebase.auth.currentUser == null) {
+            binding.bestScore.text = text
+            return
+        }
+
+        Firebase.auth.currentUser?.uid?.let { uid ->
+            db.child("users").child(uid).child("bestScore").get().addOnSuccessListener {
+                text = if (it.value != null) it.value.toString() else "0"
+                binding.bestScore.text = text
+            }
+        }
     }
 
-    private fun  updateSettings() {
-        binding.dificulty.text = settings.difficulty.toString()
-        val time = "${settings.time / 1000} s"
+    private fun updateSettings() {
+        binding.difficulty.text = settings.difficulty.toString()
+        val time = "${settings.time / 1000}s"
         binding.time.text = time
         binding.choices.text = "${settings.possibilities}"
     }
@@ -130,7 +149,7 @@ class QuizFragment(private var countries: ArrayList<Country>, private var gameLu
 
         activePossibilities(possibilities)
         builderBinding.rangeSlider.value = time.toFloat() / 1000
-        val text = "(${time/1000} s)"
+        val text = "(${time/1000}s)"
         builderBinding.timeTextView.text = text
 
         builderBinding.easyButton.setOnClickListener {
@@ -168,10 +187,10 @@ class QuizFragment(private var countries: ArrayList<Country>, private var gameLu
             }
         }
 
-        builderBinding.rangeSlider.addOnChangeListener { slider, value, _ ->
+        builderBinding.rangeSlider.addOnChangeListener { _, value, _ ->
             time = value.toLong() * 1000
-            val text = "(${value.toInt()} s)"
-            builderBinding.timeTextView.text = text
+            val timerText = "(${value.toInt()}s)"
+            builderBinding.timeTextView.text = timerText
         }
 
         builderBinding.saveButton.setOnClickListener {

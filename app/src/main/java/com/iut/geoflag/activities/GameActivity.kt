@@ -6,7 +6,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import androidx.appcompat.app.AppCompatActivity
-import com.example.formapp.utils.StorageManager
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.iut.geoflag.databinding.ActivityGameBinding
 import com.iut.geoflag.fragments.QuestionFragment
 import com.iut.geoflag.models.Country
@@ -17,13 +20,17 @@ class GameActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGameBinding
     private lateinit var game: Game
     private lateinit var timer: CountDownTimer
+    private lateinit var db: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         game = intent.getSerializableExtra("game") as Game
+
+        db = Firebase.database("https://geoflag-ceab3-default-rtdb.europe-west1.firebasedatabase.app/").reference
 
         updateQuestion()
         updateBestScore()
@@ -68,9 +75,7 @@ class GameActivity : AppCompatActivity() {
 
         builder.setCancelable(false)
 
-        builder.setPositiveButton("OK") {
-            dialog, which ->
-
+        builder.setPositiveButton("OK") { _, _ ->
             val intent = Intent()
             updateBestScore()
             intent.putExtra("score", game.getScore())
@@ -83,7 +88,6 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun updateQuestion() {
-
         val question = game.getCurrentQuestion()
 
         val transaction = supportFragmentManager.beginTransaction()
@@ -92,13 +96,15 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun updateBestScore() {
+        Firebase.auth.currentUser?.uid?.let { uid ->
+            db.child("users").child(uid).child("bestScore").get().addOnSuccessListener {
+                val bestScore = if (it.value != null) it.value as Int else 0
 
-        var bestScore = StorageManager.load<Int>(this, "bestScore") ?: 0
-
-        if (game.getScore() > bestScore){
-            StorageManager.save(this, "bestScore", game.getScore())
+                if (game.getScore() > bestScore) {
+                    it.ref.setValue(game.getScore())
+                }
+            }
         }
-
     }
 
 }
