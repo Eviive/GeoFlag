@@ -105,9 +105,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/compass"
-            android:contentDescription="flag"
-            android:layout_gravity="center"
+            android:contentDescription="@string/flag"
             android:scaleType="centerCrop"
+            android:layout_gravity="center"
             android:layout_margin="2dp"
         />
 
