@@ -45,6 +45,10 @@ data class Game(private var settings: Settings) : Serializable {
         currentQuestion = generateQuestion()
     }
 
+    fun getQuestionNumber(): Int {
+        return questionNumber
+    }
+
     fun getCurrentQuestion(): Question {
         return currentQuestion
     }

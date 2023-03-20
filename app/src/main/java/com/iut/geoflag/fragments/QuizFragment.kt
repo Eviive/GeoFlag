@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -29,7 +28,7 @@ import com.iut.geoflag.models.Game
 import com.iut.geoflag.models.Settings
 import com.iut.geoflag.utils.StorageManager
 
-class QuizFragment(private var countries: ArrayList<Country>, private var gameLauncher: ActivityResultLauncher<Intent>): Fragment() {
+class QuizFragment(private var countries: ArrayList<Country>): Fragment() {
 
     private lateinit var binding: FragmentQuizBinding
     private lateinit var auth: FirebaseAuth
@@ -37,6 +36,7 @@ class QuizFragment(private var countries: ArrayList<Country>, private var gameLa
     private lateinit var settings: Settings
 
     private var signInClient: GoogleSignInClient? = null
+    private var game: Game? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentQuizBinding.inflate(inflater, container, false)
@@ -62,9 +62,14 @@ class QuizFragment(private var countries: ArrayList<Country>, private var gameLa
 
         binding.startButton.setOnClickListener {
             val intent = Intent(context, GameActivity::class.java)
-            val game = Game(settings)
+
+            if (game != null && !game!!.isFinished()) {
+                return@setOnClickListener
+            }
+            game = Game(settings)
+
             intent.putExtra("game", game)
-            gameLauncher.launch(intent)
+            startActivity(intent)
         }
 
         binding.settings.setOnClickListener { showSettingsDialog() }
@@ -84,12 +89,13 @@ class QuizFragment(private var countries: ArrayList<Country>, private var gameLa
 
     override fun onResume() {
         super.onResume()
+        game?.finish()
         updatePlayerUI()
         updateSettings()
     }
 
     private fun updatePlayerUI() {
-        var text = "Login to see your best score"
+        var text = getString(R.string.login_to_save_score)
 
         if (Firebase.auth.currentUser == null) {
             binding.bestScore.text = text

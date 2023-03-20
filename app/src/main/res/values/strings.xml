@@ -58,5 +58,10 @@
     <string name="logout">Logout</string>
     <string name="login">Login</string>
     <string name="player">Player</string>
-    <string name="login_to_save_score">Login to see best score</string>
+    <string name="login_to_save_score">Requires to be logged in</string>
+    <string name="close">Close</string>
+    <string name="dialog_game_questions">"You answered right to: "</string>
+    <string name="dialog_game_pourcentages">"Winrate: "</string>
+    <string name="dialog_game_title">Game Over</string>
+    <string name="questions">questions</string>
 </resources>

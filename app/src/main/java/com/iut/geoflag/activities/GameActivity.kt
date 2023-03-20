@@ -10,7 +10,9 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.iut.geoflag.R
 import com.iut.geoflag.databinding.ActivityGameBinding
+import com.iut.geoflag.databinding.DialogEndgameBinding
 import com.iut.geoflag.fragments.QuestionFragment
 import com.iut.geoflag.models.Game
 import java.util.concurrent.Executors
@@ -81,13 +83,16 @@ class GameActivity : AppCompatActivity() {
         game.finish()
         updateBestScore()
 
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Game Over")
-        builder.setMessage("Your score is ${game.getScore()}")
+        val dialogBinding = DialogEndgameBinding.inflate(layoutInflater)
 
+        val builder = AlertDialog.Builder(this)
+        builder.setView(dialogBinding.root)
         builder.setCancelable(false)
 
-        builder.setPositiveButton("OK") { _, _ ->
+        dialogBinding.dialogGameQuestions.text = String.format("%d / %d %s", game.getScore(), game.getQuestionNumber(), getString(R.string.questions))
+        dialogBinding.dialogGamePourcentages.text = String.format("%.2f%%", game.getScore().toFloat() / game.getQuestionNumber().toFloat() * 100)
+
+        dialogBinding.closeButton.setOnClickListener {
             val intent = Intent()
             intent.putExtra("score", game.getScore())
             setResult(Activity.RESULT_OK, intent)
@@ -95,7 +100,6 @@ class GameActivity : AppCompatActivity() {
         }
 
         builder.show()
-
     }
 
     private fun updateQuestion() {

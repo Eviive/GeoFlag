@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "242967402197-313jhef6f59ju62f0qglp3pg95r1h9i1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iut.geoflag",
+            "certificate_hash": "7a0c9e75d1e1349e2eb2729a785fb05758e57d1a"
+          }
+        },
+        {
           "client_id": "242967402197-kt8ooqnvplnodhl6jf0ov89ehjj1v611.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

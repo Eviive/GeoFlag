@@ -59,5 +59,10 @@
     <string name="logout">Se déconnecter</string>
     <string name="login">Se connecter</string>
     <string name="player">Joueur</string>
-    <string name="login_to_save_score">Vous devez vous connecter</string>
+    <string name="login_to_save_score">Connexion requise</string>
+    <string name="close">Fermer</string>
+    <string name="dialog_game_questions">"Vous avez répondu juste à : "</string>
+    <string name="dialog_game_pourcentages">"Pourcentage de bonne réponse : "</string>
+    <string name="dialog_game_title">Game Over</string>
+    <string name="questions">questions</string>
 </resources>
