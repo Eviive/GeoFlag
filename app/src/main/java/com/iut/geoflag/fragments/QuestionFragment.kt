@@ -67,13 +67,12 @@ class QuestionFragment(private var question: Question) : Fragment() {
         val cardView = CardView(requireContext())
 
         cardView.radius = 50f
-        cardView.setContentPadding(16, 16, 16, 16)
-        cardView.cardElevation = 8f
+        cardView.setContentPadding(16, 12, 16, 12)
         cardView.useCompatPadding = true
 
         val textView = TextView(requireContext())
         textView.text = Country.getName().common
-        textView.textSize = 18f
+        textView.textSize = 15f
         textView.gravity = Gravity.CENTER
 
         cardView.addView(textView)
