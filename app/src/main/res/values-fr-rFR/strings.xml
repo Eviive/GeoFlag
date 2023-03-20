@@ -15,7 +15,7 @@
     <string name="channel_notification_name">Notification GeoFlag</string>
     <string name="notification_title">Vous avez reçu une notification</string>
     <string name="description_person_pin">Une épingle avec une personne</string>
-    <string name="title_google_login">Connexion Google</string>
+    <string name="title_login_activity">Connexion GeoFlag</string>
     <string name="google_sign_in">Se connecter avec Google</string>
     <string name="description_google_logo">Le logo de Google</string>
     <string name="flag">Drapeau</string>
@@ -56,4 +56,7 @@
     <string name="the_flag_of_the_country">Le drapeau du pays</string>
     <string name="see_detail">Voir les détails</string>
     <string name="see_on_google_maps">Voir sur la carte</string>
+    <string name="logout">Se déconnecter</string>
+    <string name="login">Se connecter</string>
+    <string name="player">Joueur</string>
 </resources>

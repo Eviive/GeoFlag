@@ -17,14 +17,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import com.iut.geoflag.R
@@ -43,7 +38,6 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var auth: FirebaseAuth
 
     private val detailsLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -84,7 +78,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private var signInClient: GoogleSignInClient? = null
     private var currentTab = 1
     private var loadedData = false
 
@@ -96,10 +89,6 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        if (!login()) {
-            return
-        }
 
         askNotificationPermission()
 
@@ -246,44 +235,6 @@ class MainActivity : AppCompatActivity() {
 
             Log.i("MainActivity", token)
         })
-    }
-
-    private fun login(): Boolean {
-        auth = Firebase.auth
-
-        if (auth.currentUser == null) {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-            return false
-        }
-
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-        signInClient = GoogleSignIn.getClient(this, gso)
-        setProfile()
-
-        binding.signOutButton.setOnClickListener {
-            logout()
-        }
-
-        return true
-    }
-
-    private fun logout() {
-        auth.signOut()
-        signInClient?.signOut()?.addOnCompleteListener(this) {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-        }
-    }
-
-    private fun setProfile() {
-        val username = auth.currentUser?.displayName ?: "Not logged in"
-
-        Log.i("MainActivity", username)
     }
 
 }

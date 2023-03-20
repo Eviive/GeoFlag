@@ -14,7 +14,7 @@
     <string name="channel_notification_name">GeoFlag notifications</string>
     <string name="notification_title">You received a GeoFlag notification</string>
     <string name="description_person_pin">A pin with a person</string>
-    <string name="title_google_login">Google Login</string>
+    <string name="title_login_activity">GeoFlag Sign In</string>
     <string name="google_sign_in">Sign in with Google</string>
     <string name="description_google_logo">Google\'s logo</string>
     <string name="flag">Flag</string>
@@ -55,4 +55,7 @@
     <string name="the_flag_of_the_country">The flag of the country</string>
     <string name="see_detail">See details</string>
     <string name="see_on_google_maps">See on Google Maps</string>
+    <string name="logout">Logout</string>
+    <string name="login">Login</string>
+    <string name="player">Player</string>
 </resources>

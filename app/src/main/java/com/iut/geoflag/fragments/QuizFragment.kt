@@ -9,31 +9,40 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
-import com.iut.geoflag.utils.StorageManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.iut.geoflag.R
 import com.iut.geoflag.activities.GameActivity
+import com.iut.geoflag.activities.LoginActivity
 import com.iut.geoflag.databinding.DialogSettingsBinding
 import com.iut.geoflag.databinding.FragmentQuizBinding
 import com.iut.geoflag.models.Country
 import com.iut.geoflag.models.Difficulty
 import com.iut.geoflag.models.Game
 import com.iut.geoflag.models.Settings
+import com.iut.geoflag.utils.StorageManager
 
 class QuizFragment(private var countries: ArrayList<Country>, private var gameLauncher: ActivityResultLauncher<Intent>): Fragment() {
 
     private lateinit var binding: FragmentQuizBinding
+    private lateinit var auth: FirebaseAuth
     private lateinit var db: DatabaseReference
     private lateinit var settings: Settings
+
+    private var signInClient: GoogleSignInClient? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentQuizBinding.inflate(inflater, container, false)
 
+        auth = Firebase.auth
         db = Firebase.database("https://geoflag-ceab3-default-rtdb.europe-west1.firebasedatabase.app/").reference
-
         settings = StorageManager.load<Settings>(requireContext(), "settings")
             ?: Settings(
                 countries,
@@ -41,6 +50,13 @@ class QuizFragment(private var countries: ArrayList<Country>, private var gameLa
                 3,
                 Difficulty.MEDIUM
             )
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        signInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
         updateSettings()
 
@@ -51,34 +67,40 @@ class QuizFragment(private var countries: ArrayList<Country>, private var gameLa
             gameLauncher.launch(intent)
         }
 
-        binding.settings.setOnClickListener {
-            showSettingsDialog()
+        binding.settings.setOnClickListener { showSettingsDialog() }
+
+        if (auth.currentUser == null) {
+            binding.authButton.text = getString(R.string.login)
+            binding.authButton.setOnClickListener { login() }
+        } else {
+            binding.authButton.text = getString(R.string.logout)
+            binding.authButton.setOnClickListener { logout() }
         }
 
-        updateBestScore()
-
-        binding.playerName.text = Firebase.auth.currentUser?.displayName ?: "Player"
+        updatePlayerUI()
 
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        updateBestScore()
+        updatePlayerUI()
         updateSettings()
     }
 
-    private fun updateBestScore() {
+    private fun updatePlayerUI() {
         var text = "Login to see your best score"
 
         if (Firebase.auth.currentUser == null) {
             binding.bestScore.text = text
+            binding.playerName.text = getString(R.string.player)
             return
         }
 
-        Firebase.auth.currentUser?.uid?.let { uid ->
-            db.child("users").child(uid).child("bestScore").get().addOnSuccessListener {
-                text = if (it.value != null) it.value.toString() else "0"
+        Firebase.auth.currentUser?.let {
+            binding.playerName.text = it.displayName
+            db.child("users").child(it.uid).child("bestScore").get().addOnSuccessListener { data ->
+                text = if (data.value != null) data.value.toString() else "0"
                 binding.bestScore.text = text
             }
         }
@@ -212,4 +234,29 @@ class QuizFragment(private var countries: ArrayList<Country>, private var gameLa
 
         dialog.show()
     }
+
+    private fun login(): Boolean {
+        auth = Firebase.auth
+
+        if (auth.currentUser == null) {
+            startActivity(Intent(requireContext(), LoginActivity::class.java))
+            return false
+        }
+
+        binding.authButton.text = getString(R.string.logout)
+        binding.authButton.setOnClickListener { logout() }
+        updatePlayerUI()
+
+        return true
+    }
+
+    private fun logout() {
+        auth.signOut()
+        signInClient?.signOut()?.addOnCompleteListener(requireActivity()) {
+            binding.authButton.text = getString(R.string.login)
+            binding.authButton.setOnClickListener { login() }
+            updatePlayerUI()
+        }
+    }
+
 }

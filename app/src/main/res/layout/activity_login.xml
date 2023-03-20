@@ -14,26 +14,26 @@
             android:gravity="center">
 
         <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/ic_person_pin_24dp"
-                android:contentDescription="@string/description_person_pin" />
+                android:src="@drawable/compass"
+                android:contentDescription="@string/compass_logo" />
 
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/title_google_login"
+                android:text="@string/title_login_activity"
+                android:textStyle="bold"
                 android:textAlignment="center"
-                android:textSize="32sp" />
+                android:textSize="28sp" />
 
         <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="30dp"
+                app:cardElevation="10dp"
                 android:layout_gravity="center"
                 android:layout_margin="50dp"
                 android:clickable="true"
