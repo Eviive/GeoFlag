@@ -19,14 +19,14 @@
     <string name="description_google_logo">Google\'s logo</string>
     <string name="flag">Flag</string>
     <string name="previous">Back</string>
-    <string name="country_name">Name</string>
-    <string name="country_capital">Capital</string>
-    <string name="country_region">Region</string>
-    <string name="country_languages">Language</string>
-    <string name="country_coordinates">Coordinates</string>
-    <string name="country_area">Area</string>
-    <string name="country_population">Population</string>
-    <string name="inhabitants">inhabitants</string>
+    <string name="country_name">"Name: "</string>
+    <string name="country_capital">"Capital: "</string>
+    <string name="country_region">"Region: "</string>
+    <string name="country_languages">"Language: "</string>
+    <string name="country_coordinates">"Coordinates: "</string>
+    <string name="country_area">"Area: "</string>
+    <string name="country_population">"Population: "</string>
+    <string name="inhabitants">"Inhabitants "</string>
     <string name="see_on_map">See on map</string>
     <string name="best_score">"Best Score: "</string>
     <string name="settings">Settings</string>
@@ -53,4 +53,5 @@
     <string name="population">"Population: "</string>
     <string name="custom_time_slider">Slider for custom time range (30–90 seconds)</string>
     <string name="no_capital">No known capital</string>
+    <string name="the_flag_of_the_country">The flag of the country</string>
 </resources>

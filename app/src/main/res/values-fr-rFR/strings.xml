@@ -20,14 +20,14 @@
     <string name="description_google_logo">Le logo de Google</string>
     <string name="flag">Drapeau</string>
     <string name="previous">Retour</string>
-    <string name="country_name">Nom</string>
-    <string name="country_capital">Capitale</string>
-    <string name="country_region">Région</string>
-    <string name="country_coordinates">Coordonnées</string>
-    <string name="country_area">Superficie</string>
-    <string name="country_population">Population</string>
-    <string name="country_languages">Langue</string>
-    <string name="inhabitants">habitants</string>
+    <string name="country_name">"Nom : "</string>
+    <string name="country_capital">"Capitale : "</string>
+    <string name="country_region">"Région : "</string>
+    <string name="country_coordinates">"Coordonnées : "</string>
+    <string name="country_area">"Superficie : "</string>
+    <string name="country_population">"Population : "</string>
+    <string name="country_languages">"Langue : "</string>
+    <string name="inhabitants">"habitants "</string>
     <string name="see_on_map">Voir sur la carte</string>
     <string name="difficulty">"Difficulté : "</string>
     <string name="player_name">"Pseudo : "</string>
@@ -54,4 +54,5 @@
     <string name="population">"Population : "</string>
     <string name="custom_time_slider">Curseur pour une plage de temps personnalisée (30–90 secondes)</string>
     <string name="no_capital">Pas de capitale</string>
+    <string name="the_flag_of_the_country">Le drapeau du pays</string>
 </resources>
