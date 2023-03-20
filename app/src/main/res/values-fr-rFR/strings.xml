@@ -59,4 +59,5 @@
     <string name="logout">Se déconnecter</string>
     <string name="login">Se connecter</string>
     <string name="player">Joueur</string>
+    <string name="login_to_save_score">Vous devez vous connecter</string>
 </resources>

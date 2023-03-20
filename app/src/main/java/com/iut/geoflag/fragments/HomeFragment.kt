@@ -10,6 +10,7 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.iut.geoflag.R
 import com.iut.geoflag.activities.DetailsActivity
 import com.iut.geoflag.activities.MainActivity
@@ -79,6 +80,10 @@ class HomeFragment(countries: List<Country>, launcher: ActivityResultLauncher<In
                 return true
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
+
+    fun scrollToTop(scroller: RecyclerView.SmoothScroller) {
+        binding.recyclerViewCountries.layoutManager?.startSmoothScroll(scroller)
     }
 
 }

@@ -17,6 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearSmoothScroller
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -100,12 +101,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.navigationView.setOnItemSelectedListener {
-            if (!loadedData || currentTab == it.itemId) {
+            if (!loadedData || (it.itemId == currentTab && it.itemId != R.id.navigation_home)) {
                 return@setOnItemSelectedListener false
             }
             when (it.itemId) {
                 R.id.navigation_home -> {
-                    loadFragment(homeFragment, 1)
+                    if (currentTab == 1) {
+                        Log.i("MainActivity", "Scrolling to top")
+                        val scroller = LinearSmoothScroller(this)
+                        scroller.targetPosition = 0
+                        homeFragment.scrollToTop(scroller)
+                    } else {
+                        loadFragment(homeFragment, 1)
+                    }
                     true
                 }
                 R.id.navigation_quiz -> {
