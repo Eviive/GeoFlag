@@ -1,16 +1,15 @@
 package com.iut.geoflag.activities
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.iut.geoflag.R
 import com.iut.geoflag.databinding.ActivityGameBinding
 import com.iut.geoflag.databinding.DialogEndgameBinding
 import com.iut.geoflag.fragments.QuestionFragment
@@ -85,12 +84,15 @@ class GameActivity : AppCompatActivity() {
 
         val dialogBinding = DialogEndgameBinding.inflate(layoutInflater)
 
-        val builder = AlertDialog.Builder(this)
+        val builder = MaterialAlertDialogBuilder(this)
+
         builder.setView(dialogBinding.root)
         builder.setCancelable(false)
 
-        dialogBinding.dialogGameQuestions.text = String.format("%d / %d %s", game.getScore(), game.getQuestionNumber(), getString(R.string.questions))
-        dialogBinding.dialogGamePourcentages.text = String.format("%.2f%%", game.getScore().toFloat() / game.getQuestionNumber().toFloat() * 100)
+        dialogBinding.dialogGameQuestions.text = String.format("%d / %d", game.getScore(), game.getQuestionNumber())
+
+        val winRate = ((game.getScore() / game.getQuestionNumber().toFloat()) * 100).toInt()
+        dialogBinding.dialogGamePourcentages.text = String.format("%d%%", winRate)
 
         dialogBinding.closeButton.setOnClickListener {
             val intent = Intent()

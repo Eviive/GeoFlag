@@ -1,71 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:padding="30dp">
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:text="@string/dialog_game_title"
         android:textSize="25sp"
         android:layout_gravity="center"
         android:gravity="center"
-        android:fontFamily="sans-serif-medium" />
+        android:textStyle="bold" />
 
     <View
         android:layout_width="390dp"
         android:layout_height="1dp"
-        android:layout_marginBottom="20dp"
         android:background="?android:attr/listDivider" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginVertical="50dp">
 
-        <LinearLayout
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_game_questions"
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dialog_game_questions"
-                android:paddingTop="20dp"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                />
+            android:textSize="20sp"
+            />
 
-            <TextView
-                android:id="@+id/dialog_game_questions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/dialog_game_questions"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="40sp"
+            android:layout_margin="20dp"
+            />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dialog_game_pourcentages"
-                android:paddingTop="20dp"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/questions"
+            android:textSize="20sp"
+            />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/dialog_game_pourcentages"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_game_pourcentages"
+            android:textSize="15sp"
+            />
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/dialog_game_pourcentages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            />
 
     </LinearLayout>
 
@@ -73,7 +80,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/close"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="10dp"
         android:id="@+id/closeButton" />
 
 </LinearLayout>
