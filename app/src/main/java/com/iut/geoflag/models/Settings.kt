@@ -10,6 +10,9 @@ data class Settings(
 ): Serializable {
 
     companion object {
+
+        const val serialVersionUID = 1L
+
         fun countriesFilter(countries : ArrayList<Country>,difficulty: Difficulty): ArrayList<Country> {
 
             countries.sortBy { it.area }

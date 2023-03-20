@@ -47,11 +47,12 @@
     <string name="possibility">"Possibilities: "</string>
     <string name="desc_possibilities">The number of possible answers for each question.</string>
     <string name="save">Save</string>
-    <string name="game_title">- The Flag Quiz -</string>
     <string name="score">"Score: "</string>
     <string name="capital">"Capital: "</string>
     <string name="population">"Population: "</string>
     <string name="custom_time_slider">Slider for custom time range (30–90 seconds)</string>
     <string name="no_capital">No known capital</string>
     <string name="the_flag_of_the_country">The flag of the country</string>
+    <string name="see_detail">See details</string>
+    <string name="see_on_google_maps">See on Google Maps</string>
 </resources>

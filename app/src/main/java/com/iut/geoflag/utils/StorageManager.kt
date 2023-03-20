@@ -2,6 +2,7 @@ package com.iut.geoflag.utils
 
 import android.content.Context
 import android.util.Log
+import java.io.File
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 
@@ -29,11 +30,12 @@ class StorageManager {
 
             return try {
 
-                if (!context.fileList().contains(key)) {
+                val file = File(key)
+                if (!file.exists()){
                     return null
                 }
 
-                val fileInput = context.openFileInput(key)
+                val fileInput = context.openFileInput(file.name)
 
                 val data = ObjectInputStream(fileInput)
                 val values = data.readObject() as T

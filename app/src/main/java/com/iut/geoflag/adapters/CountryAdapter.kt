@@ -86,18 +86,19 @@ class CountryAdapter(
             if (country.capital.isNullOrEmpty()){
                 binding.countryCapital.text = itemView.context.getString(R.string.no_capital)
             } else {
-                binding.countryCapital.text = country.capital[0]
+                binding.countryCapital.text = country.capital.first()
             }
 
             itemView.setOnClickListener {
                 MaterialAlertDialogBuilder(itemView.context)
                     .setTitle(country.getName().official)
-                    .setItems(arrayOf("See details", "See on Google Maps")) { _, which ->
+                    .setItems(arrayOf(
+                        itemView.context.getString(R.string.see_detail),
+                        itemView.context.getString(R.string.see_on_google_maps)
+                        )
+                    ) { _, which ->
                         when (which) {
                             0 -> {
-                                Toast.makeText(itemView.context, "See details", Toast.LENGTH_SHORT)
-                                    .show()
-
                                 seeDetail(country)
                             }
                             1 -> {

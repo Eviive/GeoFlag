@@ -47,14 +47,13 @@ class QuestionFragment(private var question: Question) : Fragment() {
                 val correct = question.isCorrect(possibility)
 
                 if (correct){
-                    button.background.setTint(requireContext().getColor(R.color.teal_200))
+                    button.background.setTint(requireContext().getColor(R.color.green))
                 }else{
                     button.background.setTint(requireContext().getColor(R.color.red))
                     val correctButton = questionsButton[question.question]
-                    correctButton?.background?.setTint(requireContext().getColor(R.color.teal_200))
+                    correctButton?.background?.setTint(requireContext().getColor(R.color.green))
                 }
 
-                (activity as GameActivity).submitAnswer(correct)
                 (activity as GameActivity).submitAnswer(correct)
 
             }

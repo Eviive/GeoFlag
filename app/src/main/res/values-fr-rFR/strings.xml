@@ -44,7 +44,6 @@
     <string name="possibility">Possibilités</string>
     <string name="desc_possibilities">Le nombre de réponses possibles pour chaque question.</string>
     <string name="save">Sauvegarder</string>
-    <string name="game_title">"- Le Drapeau Quiz -"</string>
     <string name="score">"Résultat : "</string>
     <string name="best_score">"Meilleur Résulat : "</string>
     <string name="settings">Paramètres</string>
@@ -55,4 +54,6 @@
     <string name="custom_time_slider">Curseur pour une plage de temps personnalisée (30–90 secondes)</string>
     <string name="no_capital">Pas de capitale</string>
     <string name="the_flag_of_the_country">Le drapeau du pays</string>
+    <string name="see_detail">Voir les détails</string>
+    <string name="see_on_google_maps">Voir sur la carte</string>
 </resources>
