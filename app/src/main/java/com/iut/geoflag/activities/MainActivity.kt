@@ -95,10 +95,7 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.navigation_home -> {
                     if (currentTab == 1) {
-                        Log.i("MainActivity", "Scrolling to top")
-                        val scroller = LinearSmoothScroller(this)
-                        scroller.targetPosition = 0
-                        homeFragment.scrollToTop(scroller)
+                        homeFragment.scrollToTop()
                     } else {
                         loadFragment(homeFragment, 1)
                     }

@@ -60,18 +60,12 @@ class HomeFragment(countries: List<Country>, launcher: ActivityResultLauncher<In
 
                 searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
-                        scrollTop()
                         return false
                     }
 
                     override fun onQueryTextChange(newText: String?): Boolean {
                         adapter.filter.filter(newText)
-                        scrollTop()
                         return true
-                    }
-
-                    fun scrollTop(){
-                        binding.recyclerViewCountries.scrollToPosition(0)
                     }
                 })
             }
@@ -82,8 +76,8 @@ class HomeFragment(countries: List<Country>, launcher: ActivityResultLauncher<In
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
-    fun scrollToTop(scroller: RecyclerView.SmoothScroller) {
-        binding.recyclerViewCountries.layoutManager?.startSmoothScroll(scroller)
+    fun scrollToTop() {
+        adapter.scrollToTop()
     }
 
 }

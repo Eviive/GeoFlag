@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -21,6 +22,8 @@ class CountryAdapter(
     private val seeOnGoogleMaps: (country: Country) -> Unit
 ) : ListAdapter<Country, CountryAdapter.ItemViewHolder>(CountryDiffCallback()), Filterable {
 
+    private lateinit var recyclerView: RecyclerView
+
     init {
         submitList(countries)
     }
@@ -33,6 +36,11 @@ class CountryAdapter(
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.bind(getItem(position))
+    }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        this.recyclerView = recyclerView
     }
 
     override fun getFilter(): Filter {
@@ -59,8 +67,15 @@ class CountryAdapter(
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 submitList(results?.values as List<Country>)
+                scrollToTop()
             }
         }
+    }
+
+    fun scrollToTop() {
+        val scroller = LinearSmoothScroller(recyclerView.context)
+        scroller.targetPosition = 0
+        recyclerView.layoutManager?.startSmoothScroll(scroller)
     }
 
     inner class ItemViewHolder(private val binding: CountryItemBinding) :
