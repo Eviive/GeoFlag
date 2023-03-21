@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        tools:context=".fragments.HomeFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        tools:context=".fragments.MapFragment"
+        android:orientation="vertical"
+        android:gravity="center">
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_countries"
+    <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/map"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp" />
+            android:name="com.google.android.gms.maps.SupportMapFragment" />
 
 </LinearLayout>

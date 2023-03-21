@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardElevation="4dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+
+        app:contentPaddingLeft="80dp"
+        app:contentPaddingRight="20dp"
+
+        app:cardCornerRadius="15dp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <TextView
+                android:id="@+id/countryName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/capitalLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                />
+
+            <LinearLayout
+                android:id="@+id/capitalLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/countryName"
+                app:layout_constraintBottom_toTopOf="@id/populationLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/capital"
+                    />
+
+                <TextView
+                    android:id="@+id/countryCapital"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/populationLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/capitalLayout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/population"
+                    />
+
+                <TextView
+                    android:id="@+id/countryPopulation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    />
+            </LinearLayout>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+
+        app:cardElevation="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_gravity="center_vertical"
+        >
+
+        <ImageView
+            android:id="@+id/countryFlag"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/compass"
+            android:contentDescription="@string/flag"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
+        />
+
+    </androidx.cardview.widget.CardView>
+
+
+</FrameLayout>
