@@ -82,7 +82,7 @@ class MapFragment(private val countries: List<Country>, private val detailsLaunc
 
         val options = MarkerOptions()
             .position(latLng)
-            .title(country.name.common)
+            .title(country.getName().common)
 
         val marker = googleMap.addMarker(options)
 

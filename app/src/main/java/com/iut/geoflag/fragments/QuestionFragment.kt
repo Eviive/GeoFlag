@@ -2,21 +2,20 @@ package com.iut.geoflag.fragments
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.core.view.children
+import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.iut.geoflag.R
 import com.iut.geoflag.activities.GameActivity
 import com.iut.geoflag.databinding.FragmentFlagQuestionBinding
 import com.iut.geoflag.models.Country
 import com.iut.geoflag.models.Question
-import java.util.TreeMap
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 class QuestionFragment(private var question: Question) : Fragment() {
 
@@ -25,53 +24,64 @@ class QuestionFragment(private var question: Question) : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentFlagQuestionBinding.inflate(inflater, container, false)
 
-        val identifier = "question ${question.number}"
-        binding.question.text = identifier
+        binding.question.text = question.number.toString()
 
         Glide.with(this)
             .load(question.question.flags["png"])
             .into(binding.flag)
 
-        val questionsButton = HashMap<Country, Button>()
+        val questionsButton = HashMap<Country, View>()
 
         for (possibility in question.possibilities) {
 
-            val button = Button(context)
+            val button = generateAnswerView(possibility)
             questionsButton[possibility] = button
-
-            button.background.setTint(Color.GRAY)
-
-            button.layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-
-            button.text = possibility.name.common
             binding.answers.addView(button)
 
             button.setOnClickListener {
-
-                var cooldown:Long= 400
 
                 if (question.isAnswered())
                     return@setOnClickListener
                 question.setAnswered()
 
-                if (question.isCorrect(possibility)){
-                    button.background.setTint(Color.GREEN)
+                val correct = question.isCorrect(possibility)
+
+                if (correct){
+                    button.background.setTint(requireContext().getColor(R.color.green))
                 }else{
-                    button.background.setTint(Color.RED)
+                    button.background.setTint(requireContext().getColor(R.color.red))
                     val correctButton = questionsButton[question.question]
-                    correctButton?.background?.setTint(Color.GREEN)
-                    cooldown = 1000
+                    correctButton?.background?.setTint(requireContext().getColor(R.color.green))
                 }
 
-                Executors.newSingleThreadScheduledExecutor().schedule({
-                    (activity as GameActivity).submitAnswer(possibility)
-                }, cooldown, TimeUnit.MILLISECONDS)
+                (activity as GameActivity).submitAnswer(correct)
+
             }
         }
 
         return binding.root
+    }
+
+    private fun generateAnswerView(Country: Country): CardView {
+        val cardView = CardView(requireContext())
+
+        cardView.radius = 50f
+        cardView.setContentPadding(16, 12, 16, 12)
+        cardView.useCompatPadding = true
+
+        val textView = TextView(requireContext())
+        textView.text = Country.getName().common
+        textView.textSize = 15f
+        textView.gravity = Gravity.CENTER
+
+        cardView.addView(textView)
+
+        val layoutParams = ViewGroup.MarginLayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        cardView.layoutParams = layoutParams
+
+        return cardView
     }
 }

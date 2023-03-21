@@ -1,19 +1,21 @@
 package com.iut.geoflag.activities
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.iut.geoflag.databinding.ActivityGameBinding
+import com.iut.geoflag.databinding.DialogEndgameBinding
 import com.iut.geoflag.fragments.QuestionFragment
-import com.iut.geoflag.models.Country
 import com.iut.geoflag.models.Game
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 class GameActivity : AppCompatActivity() {
 
@@ -34,15 +36,16 @@ class GameActivity : AppCompatActivity() {
 
         updateQuestion()
         updateBestScore()
+        binding.score.text = game.getScore().toString()
 
         timer = object : CountDownTimer(game.getTimer(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                val text = "Time: ${millisUntilFinished / 1000 + 1}s"
+                val text = "${millisUntilFinished / 1000 + 1}s"
                 binding.timer.text = text
             }
 
             override fun onFinish() {
-                val text = "Times up!"
+                val text = "up!"
                 binding.timer.text = text
                 gameOver()
             }
@@ -54,37 +57,51 @@ class GameActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    fun submitAnswer(response : Country) {
+    fun submitAnswer(correct: Boolean) {
 
         if (game.isFinished())
             return
 
-        if (game.submitAnswer(response)) {
-            val text = "Score: ${game.getScore()}"
-            binding.score.text = text
+        game.submitAnswer(correct)
+
+        var cooldown : Long = 1200
+
+        if (correct) {
+            binding.score.text = game.getScore().toString()
+            cooldown = 500
         }
-        updateQuestion()
+
+        Executors.newSingleThreadScheduledExecutor().schedule({
+            if (!game.isFinished()) {
+                updateQuestion()
+            }
+        }, cooldown, TimeUnit.MILLISECONDS)
     }
 
     private fun gameOver() {
         game.finish()
+        updateBestScore()
 
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Game Over")
-        builder.setMessage("Your score is ${game.getScore()}")
+        val dialogBinding = DialogEndgameBinding.inflate(layoutInflater)
 
+        val builder = MaterialAlertDialogBuilder(this)
+
+        builder.setView(dialogBinding.root)
         builder.setCancelable(false)
 
-        builder.setPositiveButton("OK") { _, _ ->
+        dialogBinding.dialogGameQuestions.text = String.format("%d / %d", game.getScore(), game.getQuestionNumber())
+
+        val winRate = ((game.getScore() / game.getQuestionNumber().toFloat()) * 100).toInt()
+        dialogBinding.dialogGamePourcentages.text = String.format("%d%%", winRate)
+
+        dialogBinding.closeButton.setOnClickListener {
             val intent = Intent()
-            updateBestScore()
             intent.putExtra("score", game.getScore())
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
 
         builder.show()
-
     }
 
     private fun updateQuestion() {
@@ -98,7 +115,7 @@ class GameActivity : AppCompatActivity() {
     private fun updateBestScore() {
         Firebase.auth.currentUser?.uid?.let { uid ->
             db.child("users").child(uid).child("bestScore").get().addOnSuccessListener {
-                val bestScore = if (it.value != null) it.value as Int else 0
+                val bestScore = if (it.value != null) it.value as Long else 0
 
                 if (game.getScore() > bestScore) {
                     it.ref.setValue(game.getScore())

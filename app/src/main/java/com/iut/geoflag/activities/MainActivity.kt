@@ -1,29 +1,23 @@
 package com.iut.geoflag.activities
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import androidx.recyclerview.widget.LinearSmoothScroller
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import com.iut.geoflag.R
@@ -42,7 +36,6 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var auth: FirebaseAuth
 
     private val detailsLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -55,18 +48,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val startGameForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val data: Intent? = result.data
-
-            val score = data?.getIntExtra("score", 0)
-            Toast.makeText(this, "Score: $score", Toast.LENGTH_SHORT).show()
-        }
-    }
-
     private val countries = ArrayList<Country>()
     private val homeFragment = HomeFragment(countries, detailsLauncher)
-    private val quizFragment = QuizFragment(countries, startGameForResult)
+    private val quizFragment = QuizFragment(countries)
     private val mapFragment = MapFragment(countries, detailsLauncher)
 
     private val requestPermissionLauncher = registerForActivityResult(
@@ -83,19 +67,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private var signInClient: GoogleSignInClient? = null
     private var currentTab = 1
     private var loadedData = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val language = Resources.getSystem().configuration.locales.get(0).isO3Language
+        Country.setLanguage(language)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        if (!login()) {
-            return
-        }
 
         askNotificationPermission()
 
@@ -107,12 +89,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.navigationView.setOnItemSelectedListener {
-            if (!loadedData || currentTab == it.itemId) {
+            if (!loadedData || (it.itemId == currentTab && it.itemId != R.id.navigation_home)) {
                 return@setOnItemSelectedListener false
             }
             when (it.itemId) {
                 R.id.navigation_home -> {
-                    loadFragment(homeFragment, 1)
+                    if (currentTab == 1) {
+                        homeFragment.scrollToTop()
+                    } else {
+                        loadFragment(homeFragment, 1)
+                    }
                     true
                 }
                 R.id.navigation_quiz -> {
@@ -242,44 +228,6 @@ class MainActivity : AppCompatActivity() {
 
             Log.i("MainActivity", token)
         })
-    }
-
-    private fun login(): Boolean {
-        auth = Firebase.auth
-
-        if (auth.currentUser == null) {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-            return false
-        }
-
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-        signInClient = GoogleSignIn.getClient(this, gso)
-        setProfile()
-
-        binding.signOutButton.setOnClickListener {
-            logout()
-        }
-
-        return true
-    }
-
-    private fun logout() {
-        auth.signOut()
-        signInClient?.signOut()?.addOnCompleteListener(this) {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-        }
-    }
-
-    private fun setProfile() {
-        val username = auth.currentUser?.displayName ?: "Not logged in"
-
-        Log.i("MainActivity", username)
     }
 
 }

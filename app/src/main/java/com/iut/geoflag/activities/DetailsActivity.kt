@@ -43,32 +43,33 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     private fun bindCountry(country: Country) {
-        binding.name.text = country.name.common
 
-        val capital = getString(R.string.country_capital) + " : " + (country.capital?.get(0) ?: "N/A")
-        binding.capital.text = capital
+        binding.name.text = country.getName().common
 
-        val region =
-            getString(R.string.country_region) + " : " + (if (country.subregion != null) country.subregion + ", " + country.region else country.region)
-        binding.region.text = region
+        if (country.capital.isNullOrEmpty())
+            binding.capital.text = getString(R.string.no_capital)
+        else
+            binding.capital.text = country.capital.first()
 
-        val languages =
-            getString(R.string.country_languages) + " : " + (country.languages?.values?.first() ?: "N/A")
+        binding.region.text =
+            if (country.subregion != null)
+                "${country.subregion} ${country.region}"
+            else
+                country.region
+
+        val languages = country.languages?.values?.first() ?: "N/A"
         binding.languages.text = languages
 
         val coordinate1 = (country.latlng[0] * 100).roundToInt() / 100.0
         val coordinate2 = (country.latlng[1] * 100).roundToInt() / 100.0
-        val coordinates =
-            getString(R.string.country_coordinates) + " : " + coordinate1.toString() + "°N , " + coordinate2.toString() + "°E"
+
+        val coordinates = "$coordinate1°N , $coordinate2°E"
         binding.coordinates.text = coordinates
 
-        val str = String.format("%,d", country.area.toInt()).replace(',', ' ')
-        val area = getString(R.string.country_area) + " : " + str + " km²"
+        val area = String.format("%,d km²", country.area.toInt())
         binding.area.text = area
 
-        val str2 = String.format("%,d", country.population).replace(',', ' ')
-        val population =
-            getString(R.string.country_population) + " : " + str2 + " " + getString(R.string.inhabitants)
+        val population = String.format("%,d %s", country.population, getString(R.string.inhabitants))
         binding.population.text = population
 
         if (country.flags.containsKey("png")) {
@@ -79,7 +80,7 @@ class DetailsActivity : AppCompatActivity() {
             if (country.flags.containsKey("alt")) {
                 binding.flag.contentDescription = country.flags["alt"]
             } else {
-                binding.flag.contentDescription = "Flag of ${country.name.official}"
+                binding.flag.contentDescription = "Flag of ${country.getName().official}"
             }
         }
     }

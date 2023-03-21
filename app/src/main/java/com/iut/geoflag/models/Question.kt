@@ -8,17 +8,17 @@ data class Question (
     val possibilities: ArrayList<Country>,
 ) : Serializable {
 
-    private var isAnswered: Boolean = false
+    private var answered: Boolean = false
 
     fun isCorrect(answer: Country): Boolean {
         return answer == question
     }
 
     fun isAnswered(): Boolean {
-        return isAnswered
+        return answered
     }
 
     fun setAnswered() {
-        isAnswered = true
+        answered = true
     }
 }

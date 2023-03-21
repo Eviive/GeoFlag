@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="70dp"
-        android:text="@string/quiz_dialog_settings"
+        android:text="@string/settings"
         android:textSize="25sp"
         android:layout_gravity="center"
         android:gravity="center"
@@ -29,15 +30,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/quiz_dialog_difficulty"
+            android:text="@string/difficulty"
             android:textSize="16sp"
-            android:fontFamily="sans-serif-medium" />
+            android:fontFamily="sans-serif-medium"
+            android:textStyle="bold"/>
 
         <CheckBox
             android:layout_width="wrap_content"
-            android:text="@string/quiz_dialog_every_country"
+            android:text="@string/every_countries"
             android:layout_height="wrap_content"
-            android:textColorHint="@color/teal_700"
             android:id="@+id/allCheckBox" />
 
     </LinearLayout>
@@ -51,7 +52,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/quiz_dialog_easy"
+            android:text="@string/easy"
             android:id="@+id/easyButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/mediumButton"
@@ -60,7 +61,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/quiz_dialog_medium"
+            android:text="@string/medium"
             android:id="@+id/mediumButton"
             app:layout_constraintStart_toEndOf="@+id/easyButton"
             app:layout_constraintEnd_toStartOf="@+id/hardButton"
@@ -69,7 +70,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/quiz_dialog_hard"
+            android:text="@string/hard"
             android:id="@+id/hardButton"
             app:layout_constraintStart_toEndOf="@+id/mediumButton"
             app:layout_constraintEnd_toEndOf="parent"
@@ -80,11 +81,14 @@
     <TextView
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="@string/quiz_dialog_difficulty_explanation"
+        android:text="@string/desc_difficulty"
         android:textSize="12sp"
+
         android:gravity="center"
         android:layout_gravity="center"
-        android:fontFamily="sans-serif-medium" />
+
+        />
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -93,20 +97,23 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/quiz_dialog_time"
+            android:text="@string/time"
             android:paddingTop="20dp"
             android:textSize="16sp"
-            android:fontFamily="sans-serif-medium" />
+            android:textStyle="bold"
+        />
 
         <TextView
             android:id="@+id/timeTextView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+        />
 
     </LinearLayout>
 
     <com.google.android.material.slider.Slider
         android:id="@+id/rangeSlider"
+        android:contentDescription="@string/custom_time_slider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -115,24 +122,29 @@
         android:valueTo="90"
         android:stepSize="10.0"
         app:thumbColor="@color/teal_700"
-        app:trackColor="#AAAAAA" />
+        app:trackColor="@color/grey"
+    />
+
 
     <TextView
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="@string/quiz_dialog_time_explanation"
+        android:text="@string/desc_time"
         android:textSize="12sp"
+
         android:gravity="center"
         android:layout_gravity="center"
-        android:fontFamily="sans-serif-medium" />
+        android:fontFamily="sans-serif-medium"
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/quiz_dialog_possibility"
+        android:text="@string/possibility"
         android:textSize="16sp"
         android:paddingTop="20dp"
-        android:fontFamily="sans-serif-medium" />
+        android:textStyle="bold"
+        />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -143,36 +155,42 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/quiz_dialog_3"
+            android:text="3"
             android:id="@+id/possibility3Button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/possibility5Button"
-            app:layout_constraintBaseline_toTopOf="parent" />
+            app:layout_constraintBaseline_toTopOf="parent"
+            tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/possibility5Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/quiz_dialog_5"
+            android:text="5"
             app:layout_constraintStart_toEndOf="@+id/possibility3Button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBaseline_toTopOf="parent" />
+
+            app:layout_constraintBaseline_toTopOf="parent"
+
+            tools:ignore="HardcodedText" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="@string/quiz_dialog_possibility_explanation"
+        android:text="@string/desc_possibilities"
         android:textSize="12sp"
+
         android:gravity="center"
         android:layout_gravity="center"
-        android:fontFamily="sans-serif-medium" />
+        android:fontFamily="sans-serif-medium"
+    />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/quiz_dialog_save"
+        android:text="@string/save"
         android:layout_marginTop="20dp"
         android:id="@+id/saveButton" />
 

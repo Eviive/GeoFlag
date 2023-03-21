@@ -9,8 +9,8 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.iut.geoflag.R
 import com.iut.geoflag.activities.DetailsActivity
 import com.iut.geoflag.activities.MainActivity
@@ -45,12 +45,7 @@ class HomeFragment(countries: List<Country>, launcher: ActivityResultLauncher<In
 
         binding.recyclerViewCountries.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        binding.recyclerViewCountries.addItemDecoration(
-            DividerItemDecoration(
-                context,
-                DividerItemDecoration.VERTICAL
-            )
-        )
+
         binding.recyclerViewCountries.adapter = adapter
 
         return binding.root
@@ -79,6 +74,10 @@ class HomeFragment(countries: List<Country>, launcher: ActivityResultLauncher<In
                 return true
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
+
+    fun scrollToTop() {
+        adapter.scrollToTop()
     }
 
 }

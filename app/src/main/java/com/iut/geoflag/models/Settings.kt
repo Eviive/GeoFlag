@@ -10,6 +10,9 @@ data class Settings(
 ): Serializable {
 
     companion object {
+
+        const val serialVersionUID = 1L
+
         fun countriesFilter(countries : ArrayList<Country>,difficulty: Difficulty): ArrayList<Country> {
 
             countries.sortBy { it.area }
@@ -41,13 +44,5 @@ data class Settings(
 
     init {
         countries = countriesFilter(countries, difficulty)
-    }
-
-    fun getCountryNames(): ArrayList<String> {
-        val names = ArrayList<String>()
-        for (country in countries) {
-            names.add(country.name.common)
-        }
-        return names
     }
 }

@@ -11,12 +11,6 @@
             app:layout_constraintBottom_toTopOf="@id/navigation_view"
             app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-            android:id="@+id/sign_out_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sign Out"/>
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/navigation_view"
             android:layout_width="match_parent"

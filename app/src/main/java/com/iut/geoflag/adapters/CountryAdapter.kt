@@ -4,12 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.iut.geoflag.R
 import com.iut.geoflag.databinding.CountryItemBinding
 import com.iut.geoflag.models.Country
 import com.iut.geoflag.utils.StringUtils
@@ -20,6 +21,8 @@ class CountryAdapter(
     private val seeDetail:(country: Country) -> Unit,
     private val seeOnGoogleMaps: (country: Country) -> Unit
 ) : ListAdapter<Country, CountryAdapter.ItemViewHolder>(CountryDiffCallback()), Filterable {
+
+    private lateinit var recyclerView: RecyclerView
 
     init {
         submitList(countries)
@@ -35,6 +38,11 @@ class CountryAdapter(
         holder.bind(getItem(position))
     }
 
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        this.recyclerView = recyclerView
+    }
+
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
@@ -43,9 +51,9 @@ class CountryAdapter(
                 filteredList.addAll(countries)
 
                 if (!constraint.isNullOrEmpty()) {
+                    val query = constraint.toString().lowercase(Locale.ROOT)
                     filteredList.sortBy {
-                        val name = it.name.common.lowercase(Locale.ROOT)
-                        val query = constraint.toString().lowercase(Locale.ROOT)
+                        val name = it.getName().common.lowercase(Locale.ROOT)
                         StringUtils.levenshteinDistance(name, query)
                     }
 
@@ -59,8 +67,15 @@ class CountryAdapter(
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 submitList(results?.values as List<Country>)
+                scrollToTop()
             }
         }
+    }
+
+    fun scrollToTop() {
+        val scroller = LinearSmoothScroller(recyclerView.context)
+        scroller.targetPosition = 0
+        recyclerView.layoutManager?.startSmoothScroll(scroller)
     }
 
     inner class ItemViewHolder(private val binding: CountryItemBinding) :
@@ -70,26 +85,34 @@ class CountryAdapter(
             if (country.flags.containsKey("png")) {
                 Glide.with(itemView.context)
                     .load(country.flags["png"])
-                    .into(binding.flag)
+                    .into(binding.countryFlag)
 
                 if (country.flags.containsKey("alt")) {
-                    binding.flag.contentDescription = country.flags["alt"]
+                    binding.countryFlag.contentDescription = country.flags["alt"]
                 } else {
-                    binding.flag.contentDescription = "Flag of ${country.name.official}"
+                    binding.countryFlag.contentDescription = "Flag of ${country.getName().official}"
                 }
             }
 
-            binding.name.text = country.name.common
+            binding.countryName.text = country.getName().common
+            binding.countryPopulation.text = country.population.toString()
+
+            if (country.capital.isNullOrEmpty()){
+                binding.countryCapital.text = itemView.context.getString(R.string.no_capital)
+            } else {
+                binding.countryCapital.text = country.capital.first()
+            }
 
             itemView.setOnClickListener {
                 MaterialAlertDialogBuilder(itemView.context)
-                    .setTitle(country.name.official)
-                    .setItems(arrayOf("See details", "See on Google Maps")) { _, which ->
+                    .setTitle(country.getName().official)
+                    .setItems(arrayOf(
+                        itemView.context.getString(R.string.see_detail),
+                        itemView.context.getString(R.string.see_on_google_maps)
+                        )
+                    ) { _, which ->
                         when (which) {
                             0 -> {
-                                Toast.makeText(itemView.context, "See details", Toast.LENGTH_SHORT)
-                                    .show()
-
                                 seeDetail(country)
                             }
                             1 -> {

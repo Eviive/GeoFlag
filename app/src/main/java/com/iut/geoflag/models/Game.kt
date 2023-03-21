@@ -38,16 +38,15 @@ data class Game(private var settings: Settings) : Serializable {
         return currentQuestion
     }
 
-    fun submitAnswer(answer: Country): Boolean {
-
-        val correct = currentQuestion.isCorrect(answer)
-        currentQuestion = generateQuestion()
-
-        if (correct) {
+    fun submitAnswer(valid: Boolean) {
+        if (valid) {
             score++
-            return true
         }
-        return false
+        currentQuestion = generateQuestion()
+    }
+
+    fun getQuestionNumber(): Int {
+        return questionNumber
     }
 
     fun getCurrentQuestion(): Question {
